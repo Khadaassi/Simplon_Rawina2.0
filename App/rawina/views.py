@@ -1,15 +1,12 @@
-import os
-import requests
 import threading
 from pathlib import Path
-from dotenv import load_dotenv
 from xhtml2pdf import pisa
 
 from django.conf import settings
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import FormView
@@ -17,37 +14,33 @@ from django.views.generic.edit import FormView
 from .forms import StoryGenerationForm, ChooseThemeForm
 from .models import Story
 
-load_dotenv()
-API_URL = os.getenv("RAWINA_API_URL")
+from ia_engine.nodes.scenarist import improve_prompt
+from ia_engine.llm_loader import get_llm
+from ia_engine.nodes.reviewer import review_story
 
 
 def _generate_and_save(story_id, payload):
     """
-    Background task: call the API and update story fields (text).
+    Génère l’histoire localement avec Mistral (via LangChain) et sauvegarde le résultat.
     """
+    enriched_prompt = payload.get("enriched_prompt", "")
+    llm = get_llm()
+
     try:
-        resp = requests.post(API_URL, json=payload, timeout=300)
-        resp.raise_for_status()
-        data = resp.json()
-        print("API response:", data)
-        text = data.get("story", "")
-    except Exception:
-        text = "⚠️ Failed to generate story."
+        # génération brute
+        raw_text = llm.invoke(
+            f"Here is a detailed prompt for a children's story:\n\n{enriched_prompt}\n\n"
+            "Write a coherent, magical story in English for a child aged 6 to 10. "
+            "Keep it between 10 and 15 sentences, with a warm and vivid tone."
+        ).content
+        story_text = review_story(raw_text)
+    except Exception as e:
+        print("Erreur génération :", e)
+        story_text = "⚠️ Erreur lors de la génération de l’histoire."
 
     story = Story.objects.get(pk=story_id)
-    story.generated_text = text
-
+    story.generated_text = story_text
     story.save()
-
-
-class DashboardView(TemplateView):
-    template_name = "rawina/dashboard.html"
-
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            ctx["stories"] = Story.objects.filter(user=self.request.user).order_by("-created_at")[:3]
-        return ctx
 
 
 class DashboardView(TemplateView):
@@ -66,7 +59,6 @@ class StoryListView(ListView):
     context_object_name = "stories"
 
     def get_queryset(self):
-        print("MEDIA_ROOT:", settings.MEDIA_ROOT)
         return Story.objects.filter(user=self.request.user).order_by("-created_at")
 
     def get(self, request, *args, **kwargs):
@@ -77,7 +69,7 @@ class StoryListView(ListView):
             response["Content-Disposition"] = f'attachment; filename="{story.title}.pdf"'
             pisa.CreatePDF(html, dest=response)
             return response
-        
+
         return super().get(request, *args, **kwargs)
 
 
@@ -111,18 +103,28 @@ class StoryCreateView(FormView):
         return initial
 
     def form_valid(self, form):
+        # Données brutes utilisateur
+        user_input = {
+            "nom": form.cleaned_data["name"],
+            "créature": form.cleaned_data["character"],
+            "lieu": form.cleaned_data["place"],
+            "thème": form.cleaned_data["theme"]
+        }
+
+        # Prompt enrichi (non stocké, non affiché)
+        enriched_prompt = improve_prompt(user_input)
+
+        # Payload local uniquement
         payload = {
             "user_id": str(self.request.user.id),
             "theme": form.cleaned_data["theme"],
-            "name": form.cleaned_data["name"],
-            "creature": form.cleaned_data["character"],
-            "place": form.cleaned_data["place"],
+            "enriched_prompt": enriched_prompt
         }
 
         story = Story.objects.create(
             user=self.request.user,
             title=f"{form.cleaned_data['name'].capitalize()}'s Story",
-            theme=payload["theme"],
+            theme=form.cleaned_data["theme"],
             prompt="",
             generated_text="",
         )
@@ -139,9 +141,6 @@ class StoryCreateView(FormView):
 
 
 class StoryStatusView(View):
-    """
-    Returns JSON status of story generation for polling.
-    """
     def get(self, request, pk):
         story = get_object_or_404(Story, pk=pk, user=request.user)
         return JsonResponse({
@@ -151,9 +150,6 @@ class StoryStatusView(View):
 
 
 class StoryDeleteView(View):
-    """
-    Deletes a story and redirects to list view.
-    """
     def post(self, request, pk):
         story = get_object_or_404(Story, pk=pk, user=request.user)
         story.delete()

@@ -7,8 +7,9 @@ from .views import (
     ChooseThemeView,
     StoryDetailView,
     StoryStatusView,
-    StoryDeleteView
+    StoryDeleteView,
 )
+
 app_name = "rawina"
 
 urlpatterns = [
