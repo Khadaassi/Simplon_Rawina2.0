@@ -1,0 +1,53 @@
+{% extends "theme/base_dashboard.html" %}
+{% load static %}
+
+{% block title %}Create Story - RAWINA{% endblock %}
+
+{% block content %}
+<div 
+  class="min-h-screen bg-sand-beige flex items-center justify-center px-6 py-16 shadow-lg border-y-4 border-sage-green bg-cover bg-center"
+  style="background-image: url('{% static 'images/forest_bg.png' %}')"> 
+  <div class="absolute inset-0 bg-black/40"></div>
+  <div class="border-4 border-sand-beige rounded-lg shadow-2xl p-8 bg-sage-green backdrop-blur-sm">
+    <h2 class="text-3xl font-bold text-softbrown text-center">
+      Create a New Story
+    </h2>
+    {% if form.initial.theme %}
+    <div class="mb-4 text-center">
+        <span class="inline-block bg-sage-green text-white text-sm font-semibold px-4 py-2 rounded-full">
+        Selected Theme: {{ form.initial.theme|title }}
+        </span>
+    </div>
+    {% endif %}
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+
+      <div>
+        <label class="block text-softbrown font-semibold mb-1">Main Character's name</label>
+        <input type="text" name="name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue" placeholder="e.g. Lina" required>
+      </div>
+
+      <div>
+        <label class="block text-softbrown font-semibold mb-1">Main Character Description</label>
+        <input type="text" name="character" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue" placeholder="e.g. a brave cat" required>
+      </div>
+
+      <div>
+        <label class="block text-softbrown font-semibold mb-1">Story Place</label>
+        <input type="text" name="place" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue" placeholder="e.g. in the enchanted forest" required>
+      </div>
+
+      <button type="submit" class="w-full mt-4 bg-light-sienna text-white font-semibold py-3 rounded-lg hover:bg-sage-green transition">
+        Create Story
+      </button>
+      <input type="hidden" name="theme" value="{{ form.initial.theme }}">
+    </form>
+
+    <div class="text-center text-sm text-gray-600">
+      <a href="{% url 'rawina:dashboard' %}" class="text-softbrown hover:underline">
+        Back to Dashboard
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% load static tailwind_tags%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}RAWINA{% endblock %}</title>
+        <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+        <audio id="background-audio" loop muted>
+            <source src="{% static 'audio/ambiance.mp3' %}" type="audio/mpeg">
+            Votre navigateur ne supporte pas l'élément audio.
+        </audio>
+    </head>
+    <body class="bg-white text-gray-900">
+
+<!-- Navigation -->
+<nav class="bg-sand-beige text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+        <!-- Logo & Brand -->
+        <a href="{% url 'user:home' %}" class="flex items-center space-x-2 text-sage-green">
+                <img src="{% static 'images/rawi.png' %}" alt="RAWINA logo" class="w-8 h-8">
+            <span class="text-2xl font-bold tracking-wide">RAWINA</span>
+        </a>
+    </div>
+</nav>
+    <button id="toggle-audio-button" class="fixed bottom-4 right-4 z-50 p-3 bg-sage-green text-sand-beige rounded-full shadow-lg hover:bg-light-sienna transition-colors duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464A5 5 0 0117 12h-2A3 3 0 009 9.536L15.536 8.464z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 12a5 5 0 01-1.464 3.536L15.536 8.464A5 5 0 0117 12z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.28 7.636l2.12-2.12a1 1 0 011.415 0l3.536 3.536a1 1 0 010 1.414l-2.12 2.12a1 1 0 01-1.414 0l-3.536-3.536a1 1 0 010-1.414z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9h-.01M18 15h.01M6 15h.01M18 9h.01" />
+        </svg>
+    </button>
+
+        <!-- Main Content -->
+        <main class="container mx-auto p-6">
+            {% block content %}{% endblock %}
+        </main>
+        <!-- Footer -->
+    <footer class="bg-sand-beige text-gray-700 py-10 mt-12 border-t border-glow">
+        <div class="container mx-auto px-4 text-center text-sm">
+            <p>© 2025 RAWINA — Crafted with imagination.</p>
+            <p>All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const backgroundAudio = document.getElementById('background-audio');
+        const toggleAudioButton = document.getElementById('toggle-audio-button');
+        
+        let isMuted = true; // L'état initial est muet (correspond à l'attribut 'muted' sur l'audio)
+        
+        // Fonction pour mettre à jour l'icône du bouton
+        function updateToggleButtonIcon() {
+            if (isMuted) {
+                // Icône muet (haut-parleur barré)
+                toggleAudioButton.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                    </svg>
+                    `;
+                } else {
+                    // Icône son (haut-parleur avec ondes)
+                    toggleAudioButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464A5 5 0 0117 12h-2A3 3 0 009 9.536L15.536 8.464z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 12a5 5 0 01-1.464 3.536L15.536 8.464A5 5 0 0117 12z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.28 7.636l2.12-2.12a1 1 0 011.415 0l3.536 3.536a1 1 0 010 1.414l-2.12 2.12a1 1 0 01-1.414 0l-3.536-3.536a1 1 0 010-1.414z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9h-.01M18 15h.01M6 15h.01M18 9h.01" />
+                        </svg>
+                        `;
+                    }
+                }
+                
+                // Initialiser l'icône au chargement de la page
+                updateToggleButtonIcon();
+                
+                
+                toggleAudioButton.addEventListener('click', () => {
+                    if (isMuted) {
+                        backgroundAudio.muted = false;
+                        backgroundAudio.play().then(() => {
+                            isMuted = false;
+                            updateToggleButtonIcon(); // Mettre à jour l'icône après la lecture réussie
+                        }).catch(error => {
+                            console.error('La lecture automatique a été bloquée ou a échoué:', error);
+                            // Dans ce cas, le son n'a pas pu être activé. On peut informer l'utilisateur.
+                            // Par exemple, changer l'icône pour indiquer un échec ou un état "non jouable"
+                            alert("Le navigateur a bloqué la lecture du son. Veuillez vérifier les paramètres de lecture automatique.");
+                        });
+                    } else {
+                        backgroundAudio.muted = true;
+                        isMuted = true;
+                        updateToggleButtonIcon(); // Mettre à jour l'icône après avoir coupé le son
+                    }
+                });
+                
+                // Tenter de jouer le son en muet au chargement
+                // Cela permet au navigateur de "préparer" l'audio si possible,
+                // et l'utilisateur n'aura qu'à le démuter.
+                // C'est une tentative, pas une garantie en raison des politiques des navigateurs.
+                window.addEventListener('load', () => {
+                    backgroundAudio.play().catch(error => {
+                        // C'est normal d'avoir une erreur ici si le navigateur bloque même l'autoplay muet
+                        // avant toute interaction utilisateur.
+                        console.log("Tentative de lecture automatique initiale (muet) bloquée/échouée. C'est attendu si aucune interaction n'a eu lieu.", error);
+                    });
+                });
+            </script>
+        </body>
+            </html>

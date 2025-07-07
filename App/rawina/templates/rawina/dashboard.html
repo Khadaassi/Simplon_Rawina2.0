@@ -1,0 +1,61 @@
+{% extends "theme/base_dashboard.html" %}
+
+{% load static %}
+
+{% block title %}Dashboard - RAWINA{% endblock %}
+
+{% block content %}
+<div   
+  class="min-h-screen bg-sand-beige flex items-center justify-center px-6 py-16 shadow-lg border-y-4 border-sage-green bg-cover bg-center"
+  style="background-image: url('{% static 'images/forest_bg.png' %}')"> 
+  
+  
+  <div class="absolute inset-0 bg-black/40"></div>
+    <aside class="w-64 p-6 border-4 border-sage-green rounded-lg shadow-2xl p-8 text-center bg-sage-green backdrop-blur-sm">
+        <h2 class="text-2xl font-bold text-sand-beige text-center">Tools</h2>
+        <ul class="mt-4 space-y-2">
+            <li>
+                <a href="{% url 'rawina:choose_theme' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+                    Create Story
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'rawina:story_list' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+                    All Stories
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'user:account_settings' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+                    Account Settings
+                </a>
+            </li>
+        </ul>
+    </aside>
+    <div class="w-full max-w-3xl space-y-6 border-4 border-sage-green rounded-lg shadow-2xl p-8 text-center bg-sage-green backdrop-blur-sm">
+        <div class="flex justify-center mb-4">
+            <img src="{% static 'images/rawi3.png' %}" alt="RAWI" class="w-8 h-8">
+            <h2 class="text-2xl font-bold text-sand-beige text-center">
+                Welcome to Your Dashboard, {{ user.username }}!
+            </h2>
+        </div>
+        <p class="text-gray-600 text-center">
+            Here you can manage your stories and account settings.
+        </p>
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold text-sand-beige text-center">Your Stories</h3>
+            <ul class="space-y-2">
+                {% for story in stories %}
+                    <li>
+                        <a href="{% url 'rawina:story' story.id %}" class="text-deepviolet hover:underline">
+                            {{ story.title }}
+                        </a>
+                        <span class="text-sm text-gray-500"> — {{ story.created_at|date:"M j" }}</span>
+                    </li>
+                {% empty %}
+                    <li class="text-gray-600">You have no stories yet. <a href="{% url 'rawina:choose_theme' %}" class="text-deepviolet hover:underline">Start writing</a>.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
