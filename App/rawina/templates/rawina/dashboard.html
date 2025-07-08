@@ -20,6 +20,12 @@
                 </a>
             </li>
             <li>
+                <a href="{% url 'rawina:interactive_choose_theme' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+                    Interactive Story
+                </a>
+            </li>
+
+            <li>
                 <a href="{% url 'rawina:story_list' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
                     All Stories
                 </a>
@@ -41,6 +47,13 @@
         <p class="text-gray-600 text-center">
             Here you can manage your stories and account settings.
         </p>
+        <div class="mt-6 text-center">
+            <a href="{% url 'rawina:interactive_choose_theme' %}"
+            class="inline-block bg-deepviolet text-sand-beige font-semibold py-2 px-4 rounded-xl shadow hover:bg-sage-green transition duration-200">
+                Start an Interactive Story Adventure
+            </a>
+        </div>
+
         <div class="space-y-4">
             <h3 class="text-xl font-semibold text-sand-beige text-center">Your Stories</h3>
             <ul class="space-y-2">

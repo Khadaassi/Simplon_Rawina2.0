@@ -7,38 +7,62 @@ class InteractiveNarrator:
         self.step = step
         self.max_steps = max_steps
 
+    def start_story(self, config: dict):
+        """
+        Starts the story based on user input (character name, theme, etc.).
+        """
+        character = config.get("character_name", "Alex")
+        role = config.get("character_type", "a curious child")
+        place = config.get("setting", "a mysterious forest")
+        theme = config.get("theme", "adventure")
+
+        prompt = (
+            f"You are an interactive narrator for a children's story.\n"
+            f"Create the opening scene of a story for a child aged 6 to 10.\n\n"
+            f"The main character is {character}, {role}, who lives in {place}.\n"
+            f"The theme of the story is {theme}.\n\n"
+            "Write the first scene (3-5 sentences max), then propose exactly two choices "
+            "the child can make to continue the story.\n"
+            "Respond in this format:\n"
+            "Scene:\n...\n\nChoices:\n1. ...\n2. ..."
+        )
+
+        response = self.llm.invoke(prompt).content
+        self.history.append(response)
+        self.step = 1  # first step completed
+
     def next_scene(self, user_choice=None):
         context = "\n".join(self.history)
 
-        if self.step == 0:
-            prompt_type = "beginning"
-        elif self.step == self.max_steps - 1:
-            prompt_type = "ending"
-        else:
-            prompt_type = "middle"
+        if self.step >= self.max_steps:
+            return "✨ The story has ended."
 
-        prompt = f"""You are an interactive story narrator for children (ages 6–10).
-                    The story so far:
-                    {context}
+        prompt_type = (
+            "ending" if self.step == self.max_steps - 1
+            else "middle"
+        )
 
-                    The user previously chose: {user_choice if user_choice else 'No choice yet'}.
+        prompt = f"""You are continuing an interactive story for children (ages 6–10).
+Story so far:
+{context}
 
-                    Now generate the {prompt_type} of the story, in English.
+The child previously chose: {user_choice}.
 
-                    Respond in this format:
-                    Scene:
-                    ...
+Now generate the {prompt_type} of the story in English.
 
-                    Choices:
-                    1. ...
-                    2. ...
-                    """
+Respond in this format:
+Scene:
+...
+
+Choices:
+1. ...
+2. ...
+"""
 
         response = self.llm.invoke(prompt).content
-        self.history.append(f"Choice: {user_choice}\n{response}" if user_choice else response)
+        self.history.append(f"Choice: {user_choice}\n{response}")
         self.step += 1
         return response
 
     def is_finished(self):
         return self.step >= self.max_steps
-
