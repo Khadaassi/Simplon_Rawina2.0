@@ -21,22 +21,23 @@ from ia_engine.nodes.reviewer import review_story
 
 def _generate_and_save(story_id, payload):
     """
-    Génère l’histoire localement avec Mistral (via LangChain) et sauvegarde le résultat.
+    Generates the story locally using Mistral (via LangChain) and saves it.
     """
     enriched_prompt = payload.get("enriched_prompt", "")
     llm = get_llm()
 
     try:
-        # génération brute
+        # raw generation
         raw_text = llm.invoke(
             f"Here is a detailed prompt for a children's story:\n\n{enriched_prompt}\n\n"
             "Write a coherent, magical story in English for a child aged 6 to 10. "
             "Keep it between 10 and 15 sentences, with a warm and vivid tone."
         ).content
+        # review and refine the story
         story_text = review_story(raw_text)
     except Exception as e:
-        print("Erreur génération :", e)
-        story_text = "⚠️ Erreur lors de la génération de l’histoire."
+        print("Generation error:", e)
+        story_text = "⚠️ Story generation failed."
 
     story = Story.objects.get(pk=story_id)
     story.generated_text = story_text
@@ -103,18 +104,18 @@ class StoryCreateView(FormView):
         return initial
 
     def form_valid(self, form):
-        # Données brutes utilisateur
+        # Raw user input
         user_input = {
-            "nom": form.cleaned_data["name"],
-            "créature": form.cleaned_data["character"],
-            "lieu": form.cleaned_data["place"],
-            "thème": form.cleaned_data["theme"]
+            "name": form.cleaned_data["name"],
+            "creature": form.cleaned_data["character"],
+            "place": form.cleaned_data["place"],
+            "theme": form.cleaned_data["theme"]
         }
 
-        # Prompt enrichi (non stocké, non affiché)
+        # Enriched prompt (not stored, not displayed)
         enriched_prompt = improve_prompt(user_input)
 
-        # Payload local uniquement
+        # Local generation payload
         payload = {
             "user_id": str(self.request.user.id),
             "theme": form.cleaned_data["theme"],
