@@ -18,21 +18,21 @@ class InteractiveNarrator:
             prompt_type = "middle"
 
         prompt = f"""You are an interactive story narrator for children (ages 6–10).
-The story so far:
-{context}
+                    The story so far:
+                    {context}
 
-The user previously chose: {user_choice if user_choice else 'No choice yet'}.
+                    The user previously chose: {user_choice if user_choice else 'No choice yet'}.
 
-Now generate the {prompt_type} of the story, in English.
+                    Now generate the {prompt_type} of the story, in English.
 
-Respond in this format:
-Scene:
-...
+                    Respond in this format:
+                    Scene:
+                    ...
 
-Choices:
-1. ...
-2. ...
-"""
+                    Choices:
+                    1. ...
+                    2. ...
+                    """
 
         response = self.llm.invoke(prompt).content
         self.history.append(f"Choice: {user_choice}\n{response}" if user_choice else response)
@@ -41,3 +41,4 @@ Choices:
 
     def is_finished(self):
         return self.step >= self.max_steps
+

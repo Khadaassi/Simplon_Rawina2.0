@@ -8,6 +8,7 @@ from .views import (
     StoryDetailView,
     StoryStatusView,
     StoryDeleteView,
+    InteractiveNarratorView,
 )
 
 app_name = "rawina"
@@ -20,4 +21,5 @@ urlpatterns = [
     path("create/", StoryCreateView.as_view(), name="create"),
     path("story/<int:pk>/status/", StoryStatusView.as_view(), name="story_status"),
     path("story/<int:pk>/delete/", StoryDeleteView.as_view(), name="story_delete"),
+    path("narrator/", InteractiveNarratorView.as_view(), name="narrator"),
 ]

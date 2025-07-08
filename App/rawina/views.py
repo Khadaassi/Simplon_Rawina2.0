@@ -3,6 +3,9 @@ from pathlib import Path
 from xhtml2pdf import pisa
 
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
@@ -17,6 +20,7 @@ from .models import Story
 from ia_engine.nodes.scenarist import improve_prompt
 from ia_engine.llm_loader import get_llm
 from ia_engine.nodes.reviewer import review_story
+from ia_engine.nodes.narrator import InteractiveNarrator
 
 
 def _generate_and_save(story_id, payload):
@@ -44,7 +48,7 @@ def _generate_and_save(story_id, payload):
     story.save()
 
 
-class DashboardView(TemplateView):
+class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = "rawina/dashboard.html"
 
     def get_context_data(self, **kwargs):
@@ -126,7 +130,6 @@ class StoryCreateView(FormView):
             user=self.request.user,
             title=f"{form.cleaned_data['name'].capitalize()}'s Story",
             theme=form.cleaned_data["theme"],
-            prompt="",
             generated_text="",
         )
 
@@ -155,3 +158,20 @@ class StoryDeleteView(View):
         story = get_object_or_404(Story, pk=pk, user=request.user)
         story.delete()
         return redirect(reverse("rawina:story_list"))
+
+
+class InteractiveNarratorView(TemplateView):
+    template_name = "rawina/interactive_narrator.html"
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["narrator"] = InteractiveNarrator()
+        return ctx
+
+    def post(self, request, *args, **kwargs):
+        narrator = InteractiveNarrator(history=request.session.get("narrator_history", []))
+        user_choice = request.POST.get("choice")
+        scene = narrator.next_scene(user_choice)
+
+        request.session["narrator_history"] = narrator.history
+        return render(request, self.template_name, {"scene": scene, "narrator": narrator})

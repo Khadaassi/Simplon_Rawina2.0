@@ -1,0 +1,38 @@
+{% extends "theme/base_dashboard.html" %}
+
+{% block content %}
+  <h1>Interactive Story Narrator</h1>
+  <div id="story-container">
+    <p>{{ scene }}</p>
+  </div>
+  <form method="post">
+    {% csrf_token %}
+    <input type="text" name="choice" placeholder="Your choice..." required>
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.querySelector("form");
+      form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        const choice = form.choice.value;
+        fetch("{% url 'narrator' %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+          },
+          body: JSON.stringify({ choice: choice })
+        })
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("story-container").innerHTML = data.scene;
+          form.choice.value = "";
+        });
+      });
+    });
+  </script>
+{% endblock %}
