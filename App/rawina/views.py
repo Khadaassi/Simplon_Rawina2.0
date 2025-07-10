@@ -1,3 +1,4 @@
+from logging import config
 import threading
 import base64
 import pickle
@@ -10,17 +11,18 @@ from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.text import slugify
 
 from xhtml2pdf import pisa
 
 from .forms import StoryGenerationForm, ChooseThemeForm, NarratorSetupForm
 from .models import Story
 
-from ia_engine.llm_loader import get_llm
+from ia_engine.llm_loader import get_groq_llm as get_llm
 from ia_engine.nodes.scenarist import improve_prompt
 from ia_engine.nodes.reviewer import review_story
 from ia_engine.nodes.narrator import InteractiveNarrator
+from ia_engine.nodes.title_agent import generate_title_from_scene, generate_title_from_story
+
 
 # from ia_engine.nodes.cleaner import review_scene_and_choices
 
@@ -37,14 +39,15 @@ def _generate_and_save(story_id, payload):
             "Keep it between 10 and 15 sentences, with a warm and vivid tone."
         ).content
         story_text = review_story(raw_text)
+        title = generate_title_from_story(story_text)
     except Exception as e:
         print("Generation error:", e)
         story_text = "⚠️ Story generation failed."
 
     story = Story.objects.get(pk=story_id)
     story.generated_text = story_text
+    story.title = title
     story.save()
-
 
 # === Dashboard & story views ===
 class DashboardView(LoginRequiredMixin, TemplateView):
@@ -130,8 +133,9 @@ class StoryCreateView(LoginRequiredMixin, FormView):
             user=self.request.user,
             title=f"{form.cleaned_data['name'].capitalize()}'s Story",
             theme=form.cleaned_data["theme"],
-            generated_text="",
+            generated_text="",  # À mettre à jour plus tard si besoin
         )
+
 
         threading.Thread(
             target=_generate_and_save, args=(story.pk, payload), daemon=True
@@ -237,16 +241,21 @@ class InteractiveNarratorView(LoginRequiredMixin, View):
         )
         if narrator.is_finished():
             final_story = narrator.final_story()
-            theme = request.session.get("interactive_theme", "Unknown")
-            title = slugify(narrator.history[0]['scene'][:30]) or "Interactive Story"
+            # Retrieve config from session or narrator if possible
+            config = getattr(narrator, "config", {})
+            theme = config.get("theme", "Adventure")
+
+            scene = narrator.history[0]["scene"]
+            title = generate_title_from_scene(scene)
 
             Story.objects.create(
-                user=request.user,
-                title=title.capitalize(),
-                theme=theme,
-                generated_text=final_story
+                user=self.request.user,
+                title=title,
+                theme= theme,
+                generated_text="",
             )
-            
+
+
         return render(request, self.template_name, {
             "scene": next_step["scene"],
             "choices": next_step["choices"],
