@@ -24,9 +24,12 @@ urlpatterns = [
     path("story/<int:pk>/", StoryDetailView.as_view(), name="story"),
     path("story/<int:pk>/status/", StoryStatusView.as_view(), name="story_status"),
     path("story/<int:pk>/delete/", StoryDeleteView.as_view(), name="story_delete"),
-
     # Interactive narrator
     path("narration/", InteractiveNarratorView.as_view(), name="narration"),
-    path("narration/choose-theme/", InteractiveChooseThemeView.as_view(), name="interactive_choose_theme"),
+    path(
+        "narration/choose-theme/",
+        InteractiveChooseThemeView.as_view(),
+        name="interactive_choose_theme",
+    ),
     path("narration/setup/", NarratorSetupView.as_view(), name="narration_setup"),
 ]

@@ -4,12 +4,12 @@ from django.contrib.auth.models import User
 
 class Story(models.Model):
     THEME_CHOICES = [
-        ('animals', 'Animals'),
-        ('fantasy', 'Fantasy'),
-        ('daily_hero', 'Daily Hero'),
+        ("animals", "Animals"),
+        ("fantasy", "Fantasy"),
+        ("daily_hero", "Daily Hero"),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='stories')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="stories")
     title = models.CharField(max_length=100)
     theme = models.CharField(max_length=20, choices=THEME_CHOICES)
     generated_text = models.TextField(help_text="Texte généré automatiquement")

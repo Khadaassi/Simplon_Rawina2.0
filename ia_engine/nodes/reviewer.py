@@ -1,5 +1,6 @@
 from ia_engine.llm_loader import get_groq_llm
 
+
 def review_story(text: str) -> str:
     """
     Améliore une histoire générée : cohérence, style, clarté.
@@ -14,4 +15,3 @@ def review_story(text: str) -> str:
     )
 
     return llm.invoke(prompt).content
-

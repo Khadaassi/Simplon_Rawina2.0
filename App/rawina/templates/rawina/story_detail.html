@@ -1,20 +1,18 @@
-{% extends "theme/base_dashboard.html" %}
-{% load static %}
-
-{% block title %}{{ story.title }} - RAWINA{% endblock %}
-
-{% block content %}
-<div 
+{% extends "theme/base_dashboard.html" %} {% load static %} {% block title %}{{
+story.title }} - RAWINA{% endblock %} {% block content %}
+<div
   class="min-h-screen bg-sand-beige flex items-center justify-center px-6 py-16 shadow-lg border-y-4 border-sage-green bg-cover bg-center"
-  style="background-image: url('{% static 'images/forest_bg.png' %}')"> 
-
+  style="background-image: url('{% static 'images/forest_bg.png' %}')"
+>
   <div class="absolute inset-0 bg-black/40"></div>
-    <div class="w-full max-w-4xl  border-4 border-sand-beige rounded-lg shadow-2xl p-8 bg-sage-green backdrop-blur-sm">
-    
+  <div
+    class="w-full max-w-4xl border-4 border-sand-beige rounded-lg shadow-2xl p-8 bg-sage-green backdrop-blur-sm"
+  >
     <div class="text-center">
       <h1 class="text-3xl font-bold text-deepviolet mb-2">{{ story.title }}</h1>
       <p class="text-sm text-gray-600 font-medium">
-        Theme: {{ story.get_theme_display }} • Created on {{ story.created_at|date:"F j, Y" }}
+        Theme: {{ story.get_theme_display }} • Created on {{
+        story.created_at|date:"F j, Y" }}
       </p>
     </div>
 
@@ -22,9 +20,11 @@
       <p>{{ story.generated_text|linebreaks }}</p>
     </div>
 
-
     <div class="text-center text-sm text-gray-600">
-      <a href="{% url 'rawina:dashboard' %}" class="text-softbrown hover:underline">
+      <a
+        href="{% url 'rawina:dashboard' %}"
+        class="text-softbrown hover:underline"
+      >
         Back to Dashboard
       </a>
     </div>

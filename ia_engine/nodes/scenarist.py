@@ -1,5 +1,6 @@
 from ia_engine.llm_loader import get_groq_llm
 
+
 def improve_prompt(user_answers: dict) -> str:
     llm = get_groq_llm()
     context = "\n".join([f"{k}: {v}" for k, v in user_answers.items()])

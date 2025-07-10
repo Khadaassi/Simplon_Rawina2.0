@@ -1,6 +1,7 @@
 import re
 from ia_engine.llm_loader import get_groq_llm
 
+
 def review_scene_and_choices(scene: str, choices: list[str]) -> tuple[str, list[str]]:
     """
     Cleans the scene and reformats choices into consistent, action-oriented statements.
@@ -8,7 +9,7 @@ def review_scene_and_choices(scene: str, choices: list[str]) -> tuple[str, list[
     # Clean scene
     scene = scene.strip()
     scene = re.sub(r"\s+", " ", scene)
-    scene = scene.replace('Scene:', '').strip()
+    scene = scene.replace("Scene:", "").strip()
 
     # Clean choices
     cleaned_choices = []
@@ -27,17 +28,18 @@ def review_scene_and_choices(scene: str, choices: list[str]) -> tuple[str, list[
             if " or " in c:
                 options = [x.strip().capitalize() for x in c.split(" or ")]
                 for opt in options:
-                    cleaned_choices.append(opt if opt.endswith('.') else opt + '.')
+                    cleaned_choices.append(opt if opt.endswith(".") else opt + ".")
                 continue
             else:
                 c = c[0].upper() + c[1:] + "."
         else:
             if not c.endswith("."):
                 c += "."
-        
+
         cleaned_choices.append(c)
 
     return scene, cleaned_choices
+
 
 def review_full_story(scenes: list[str]) -> str:
     """

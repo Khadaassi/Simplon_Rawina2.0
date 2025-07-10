@@ -20,7 +20,7 @@ def simulate_story():
         "character_name": "Moona",
         "character_type": "a courageous and beautiful princess",
         "setting": "the grand Donjon of Mythos",
-        "theme": "adventure and mystery"
+        "theme": "adventure and mystery",
     }
 
     narrator.start_story(config)
@@ -34,9 +34,13 @@ def simulate_story():
         result = narrator.next_scene(user_choice)
 
         # Nettoyage texte
-        scene_clean, choices_clean = review_scene_and_choices(result["scene"], result["choices"])
+        scene_clean, choices_clean = review_scene_and_choices(
+            result["scene"], result["choices"]
+        )
         step = {"scene": scene_clean, "choices": choices_clean}
-        narrator.history[-1] = step  # met à jour le dernier élément avec la version nettoyée
+        narrator.history[-1] = (
+            step  # met à jour le dernier élément avec la version nettoyée
+        )
 
         print_step(step, i)
     return narrator
@@ -48,6 +52,7 @@ def print_full_story(narrator):
     for step in narrator.history:
         print(f"\n{step['scene']}")
     print("\n=== End of Story ===\n")
+
 
 if __name__ == "__main__":
     narrator_instance = simulate_story()

@@ -20,6 +20,7 @@ from ia_engine.llm_loader import get_llm
 from ia_engine.nodes.scenarist import improve_prompt
 from ia_engine.nodes.reviewer import review_story
 from ia_engine.nodes.narrator import InteractiveNarrator
+
 # from ia_engine.nodes.cleaner import review_scene_and_choices
 
 
@@ -188,7 +189,7 @@ class NarratorSetupView(LoginRequiredMixin, FormView):
 
 class InteractiveNarratorView(LoginRequiredMixin, View):
     template_name = "rawina/interactive_narrator.html"
-    
+
     def get(self, request):
         if request.GET.get("restart") == "1":
             if "narrator" in request.session:
@@ -203,14 +204,20 @@ class InteractiveNarratorView(LoginRequiredMixin, View):
         narrator = pickle.loads(raw_bytes)
 
         # Last scene and choices
-        last = narrator.history[-1] if narrator.history else {"scene": "", "choices": []}
+        last = (
+            narrator.history[-1] if narrator.history else {"scene": "", "choices": []}
+        )
 
-        return render(request, self.template_name, {
-            "scene": last["scene"],
-            "choices": last["choices"],
-            "finished": narrator.is_finished(),
-            "history": narrator.history if narrator.is_finished() else None,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "scene": last["scene"],
+                "choices": last["choices"],
+                "finished": narrator.is_finished(),
+                "history": narrator.history if narrator.is_finished() else None,
+            },
+        )
 
     def post(self, request):
         encoded = request.session.get("narrator")
@@ -224,14 +231,20 @@ class InteractiveNarratorView(LoginRequiredMixin, View):
         next_step = narrator.next_scene(user_choice)
 
         # Save
-        request.session["narrator"] = base64.b64encode(pickle.dumps(narrator)).decode("utf-8")
+        request.session["narrator"] = base64.b64encode(pickle.dumps(narrator)).decode(
+            "utf-8"
+        )
 
-        return render(request, self.template_name, {
-            "scene": next_step["scene"],
-            "choices": next_step["choices"],
-            "finished": narrator.is_finished(),
-            "history": narrator.history if narrator.is_finished() else None,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "scene": next_step["scene"],
+                "choices": next_step["choices"],
+                "finished": narrator.is_finished(),
+                "history": narrator.history if narrator.is_finished() else None,
+            },
+        )
 
     def save_narrator(self, narrator):
         """
@@ -240,6 +253,7 @@ class InteractiveNarratorView(LoginRequiredMixin, View):
         raw_bytes = pickle.dumps(narrator)
         encoded = base64.b64encode(raw_bytes).decode("utf-8")
         self.request.session["narrator"] = encoded
+
 
 class InteractiveChooseThemeView(LoginRequiredMixin, FormView):
     template_name = "rawina/interactive_choose_theme.html"

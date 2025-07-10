@@ -6,7 +6,7 @@ user_answers = {
     "name": "Lina the cat",
     "creature": "tiger",
     "place": "jungle",
-    "theme": "animals"
+    "theme": "animals",
 }
 
 enriched_prompt = improve_prompt(user_answers)
