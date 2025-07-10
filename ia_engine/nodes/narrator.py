@@ -1,5 +1,5 @@
 # File: ia_engine/nodes/narrator.py
-from ia_engine.llm_loader import get_groq_llm 
+from ia_engine.llm_loader import get_groq_llm
 from ia_engine.nodes.cleaner import review_scene_and_choices, review_full_story
 
 
@@ -9,9 +9,10 @@ class InteractiveNarrator:
         self.history = history or []
         self.step = step
         self.max_steps = max_steps
+
     def __getstate__(self):
         state = self.__dict__.copy()
-        state['llm'] = None  # exclude the non-pickleable object
+        state["llm"] = None  # exclude the non-pickleable object
         return state
 
     def __setstate__(self, state):
@@ -46,7 +47,7 @@ class InteractiveNarrator:
         self.step = 1
 
     def next_scene(self, user_choice=None):
-        
+
         context_str = self._format_history()
         prompt_type = "ending" if self.step == self.max_steps - 1 else "middle"
 
@@ -103,9 +104,9 @@ class InteractiveNarrator:
                     choices.append(choice_text)
 
         return scene, choices
-    
+
     def final_story(self):
         """
         Returns the full story as a single string.
         """
-        return review_full_story([step['scene'] for step in self.history])
+        return review_full_story([step["scene"] for step in self.history])
