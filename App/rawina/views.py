@@ -13,17 +13,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from xhtml2pdf import pisa
 
-from .forms import (
-    StoryGenerationForm,
-    ChooseThemeForm,
-    NarratorSetupForm
-)
+from .forms import StoryGenerationForm, ChooseThemeForm, NarratorSetupForm
 from .models import Story
 
 from ia_engine.llm_loader import get_llm
 from ia_engine.nodes.scenarist import improve_prompt
 from ia_engine.nodes.reviewer import review_story
 from ia_engine.nodes.narrator import InteractiveNarrator
+# from ia_engine.nodes.cleaner import review_scene_and_choices
 
 
 # === Static story generation ===
@@ -54,7 +51,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            ctx["stories"] = Story.objects.filter(user=self.request.user).order_by("-created_at")[:3]
+            ctx["stories"] = Story.objects.filter(user=self.request.user).order_by(
+                "-created_at"
+            )[:3]
         return ctx
 
 
@@ -71,7 +70,9 @@ class StoryListView(LoginRequiredMixin, ListView):
             story = get_object_or_404(Story, id=request.GET["id"], user=request.user)
             html = render_to_string("rawina/story_pdf.html", {"story": story})
             response = HttpResponse(content_type="application/pdf")
-            response["Content-Disposition"] = f'attachment; filename=\"{story.title}.pdf\"'
+            response["Content-Disposition"] = (
+                f'attachment; filename="{story.title}.pdf"'
+            )
             pisa.CreatePDF(html, dest=response)
             return response
 
@@ -112,7 +113,7 @@ class StoryCreateView(LoginRequiredMixin, FormView):
             "name": form.cleaned_data["name"],
             "creature": form.cleaned_data["character"],
             "place": form.cleaned_data["place"],
-            "theme": form.cleaned_data["theme"]
+            "theme": form.cleaned_data["theme"],
         }
 
         enriched_prompt = improve_prompt(user_input)
@@ -120,7 +121,7 @@ class StoryCreateView(LoginRequiredMixin, FormView):
         payload = {
             "user_id": str(self.request.user.id),
             "theme": form.cleaned_data["theme"],
-            "enriched_prompt": enriched_prompt
+            "enriched_prompt": enriched_prompt,
         }
 
         story = Story.objects.create(
@@ -131,23 +132,27 @@ class StoryCreateView(LoginRequiredMixin, FormView):
         )
 
         threading.Thread(
-            target=_generate_and_save,
-            args=(story.pk, payload),
-            daemon=True
+            target=_generate_and_save, args=(story.pk, payload), daemon=True
         ).start()
 
-        return render(self.request, "rawina/loading_story.html", {
-            "story_id": story.pk,
-        })
+        return render(
+            self.request,
+            "rawina/loading_story.html",
+            {
+                "story_id": story.pk,
+            },
+        )
 
 
 class StoryStatusView(LoginRequiredMixin, View):
     def get(self, request, pk):
         story = get_object_or_404(Story, pk=pk, user=request.user)
-        return JsonResponse({
-            "ready": bool(story.generated_text),
-            "url": reverse("rawina:story", kwargs={"pk": story.pk})
-        })
+        return JsonResponse(
+            {
+                "ready": bool(story.generated_text),
+                "url": reverse("rawina:story", kwargs={"pk": story.pk}),
+            }
+        )
 
 
 class StoryDeleteView(LoginRequiredMixin, View):
@@ -174,38 +179,37 @@ class NarratorSetupView(LoginRequiredMixin, FormView):
         narrator = InteractiveNarrator()
         narrator.start_story(config)
 
-        # Serialize in base64
         raw_bytes = pickle.dumps(narrator)
         encoded = base64.b64encode(raw_bytes).decode("utf-8")
         self.request.session["narrator"] = encoded
 
         return redirect("rawina:narration")
 
+
 class InteractiveNarratorView(LoginRequiredMixin, View):
     template_name = "rawina/interactive_narrator.html"
-
+    
     def get(self, request):
-        # Redémarrer l'histoire
         if request.GET.get("restart") == "1":
             if "narrator" in request.session:
                 del request.session["narrator"]
             return redirect("rawina:narration_setup")
 
-        # Récupérer la session
         encoded = request.session.get("narrator")
         if not encoded:
             return redirect("rawina:narration_setup")
 
-        # Décoder et désérialiser
         raw_bytes = base64.b64decode(encoded)
         narrator = pickle.loads(raw_bytes)
 
-        # Mettre à jour la session
-        request.session["narrator"] = base64.b64encode(pickle.dumps(narrator)).decode("utf-8")
+        # Last scene and choices
+        last = narrator.history[-1] if narrator.history else {"scene": "", "choices": []}
 
         return render(request, self.template_name, {
-            "scene": narrator.history[-1],
+            "scene": last["scene"],
+            "choices": last["choices"],
             "finished": narrator.is_finished(),
+            "history": narrator.history if narrator.is_finished() else None,
         })
 
     def post(self, request):
@@ -217,16 +221,25 @@ class InteractiveNarratorView(LoginRequiredMixin, View):
         narrator = pickle.loads(raw_bytes)
 
         user_choice = request.POST.get("choice")
-        narrator.next_scene(user_choice)
+        next_step = narrator.next_scene(user_choice)
 
-        # Sauvegarder dans la session
+        # Save
         request.session["narrator"] = base64.b64encode(pickle.dumps(narrator)).decode("utf-8")
 
         return render(request, self.template_name, {
-            "scene": narrator.history[-1],
+            "scene": next_step["scene"],
+            "choices": next_step["choices"],
             "finished": narrator.is_finished(),
             "history": narrator.history if narrator.is_finished() else None,
         })
+
+    def save_narrator(self, narrator):
+        """
+        Save the narrator state to the session.
+        """
+        raw_bytes = pickle.dumps(narrator)
+        encoded = base64.b64encode(raw_bytes).decode("utf-8")
+        self.request.session["narrator"] = encoded
 
 class InteractiveChooseThemeView(LoginRequiredMixin, FormView):
     template_name = "rawina/interactive_choose_theme.html"

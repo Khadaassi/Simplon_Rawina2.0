@@ -1,10 +1,10 @@
-from ia_engine.llm_loader import get_llm
+from ia_engine.llm_loader import get_groq_llm
 
 def review_story(text: str) -> str:
     """
     Améliore une histoire générée : cohérence, style, clarté.
     """
-    llm = get_llm()
+    llm = get_groq_llm()
 
     prompt = (
         f"Here is a children's story for ages 6 to 10:\n\n{text}\n\n"
@@ -14,3 +14,4 @@ def review_story(text: str) -> str:
     )
 
     return llm.invoke(prompt).content
+
