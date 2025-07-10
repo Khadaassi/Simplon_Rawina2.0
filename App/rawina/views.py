@@ -10,6 +10,7 @@ from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.text import slugify
 
 from xhtml2pdf import pisa
 
@@ -234,17 +235,24 @@ class InteractiveNarratorView(LoginRequiredMixin, View):
         request.session["narrator"] = base64.b64encode(pickle.dumps(narrator)).decode(
             "utf-8"
         )
+        if narrator.is_finished():
+            final_story = narrator.final_story()
+            theme = request.session.get("interactive_theme", "Unknown")
+            title = slugify(narrator.history[0]['scene'][:30]) or "Interactive Story"
 
-        return render(
-            request,
-            self.template_name,
-            {
-                "scene": next_step["scene"],
-                "choices": next_step["choices"],
-                "finished": narrator.is_finished(),
-                "history": narrator.history if narrator.is_finished() else None,
-            },
-        )
+            Story.objects.create(
+                user=request.user,
+                title=title.capitalize(),
+                theme=theme,
+                generated_text=final_story
+            )
+            
+        return render(request, self.template_name, {
+            "scene": next_step["scene"],
+            "choices": next_step["choices"],
+            "finished": narrator.is_finished(),
+            "history": narrator.history if narrator.is_finished() else None,
+        })
 
     def save_narrator(self, narrator):
         """

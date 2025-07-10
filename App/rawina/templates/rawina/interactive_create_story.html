@@ -1,24 +1,24 @@
-{% extends "theme/base_dashboard.html" %} {% load static %} {% block title
-%}Interactive Story Setup - RAWINA{% endblock %} {% block content %}
-<div
+{% extends "theme/base_dashboard.html" %}
+{% load static %}
+
+{% block title %}Interactive Story Setup - RAWINA{% endblock %}
+
+{% block content %}
+<div 
   class="min-h-screen bg-sand-beige flex items-center justify-center px-6 py-16 shadow-lg border-y-4 border-sage-green bg-cover bg-center"
-  style="background-image: url('{% static 'images/forest_bg.png' %}')"
->
+  style="background-image: url('{% static 'images/forest_bg.png' %}')"> 
   <div class="absolute inset-0 bg-black/40"></div>
-  <div
-    class="border-4 border-sand-beige rounded-lg shadow-2xl p-8 bg-sage-green backdrop-blur-sm"
-  >
+  <div class="border-4 border-sand-beige rounded-lg shadow-2xl p-8 bg-sage-green backdrop-blur-sm">
+    
     <h2 class="text-3xl font-bold text-softbrown text-center">
       Start Your Interactive Story
     </h2>
 
     {% if form.initial.theme %}
     <div class="mb-4 text-center">
-      <span
-        class="inline-block bg-sage-green text-white text-sm font-semibold px-4 py-2 rounded-full"
-      >
+        <span class="inline-block bg-sage-green text-white text-sm font-semibold px-4 py-2 rounded-full">
         Selected Theme: {{ form.initial.theme|title }}
-      </span>
+        </span>
     </div>
     {% endif %}
 
@@ -26,59 +26,29 @@
       {% csrf_token %}
 
       <div>
-        <label class="block text-softbrown font-semibold mb-1"
-          >Character Name</label
-        >
-        <input
-          type="text"
-          name="character_name"
-          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue"
-          placeholder="e.g. Lina"
-          required
-        />
+        <label class="block text-softbrown font-semibold mb-1">Character Name</label>
+        <input type="text" name="character_name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue" placeholder="e.g. Lina" required>
       </div>
 
       <div>
-        <label class="block text-softbrown font-semibold mb-1"
-          >Character Description</label
-        >
-        <input
-          type="text"
-          name="character_type"
-          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue"
-          placeholder="e.g. a brave cat"
-          required
-        />
+        <label class="block text-softbrown font-semibold mb-1">Character Description</label>
+        <input type="text" name="character_type" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue" placeholder="e.g. a brave cat" required>
       </div>
 
       <div>
-        <label class="block text-softbrown font-semibold mb-1"
-          >Story Setting</label
-        >
-        <input
-          type="text"
-          name="setting"
-          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue"
-          placeholder="e.g. a floating castle"
-          required
-        />
+        <label class="block text-softbrown font-semibold mb-1">Story Setting</label>
+        <input type="text" name="setting" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue" placeholder="e.g. a floating castle" required>
       </div>
 
-      <input type="hidden" name="theme" value="{{ form.initial.theme }}" />
+      <input type="hidden" name="theme" value="{{ form.initial.theme }}">
 
-      <button
-        type="submit"
-        class="w-full mt-4 bg-light-sienna text-white font-semibold py-3 rounded-lg hover:bg-sage-green transition"
-      >
+      <button type="submit" class="w-full mt-4 bg-light-sienna text-white font-semibold py-3 rounded-lg hover:bg-sage-green transition">
         Launch Story
       </button>
     </form>
 
     <div class="text-center text-sm text-gray-600 mt-4">
-      <a
-        href="{% url 'rawina:interactive_choose_theme' %}"
-        class="text-softbrown hover:underline"
-      >
+      <a href="{% url 'rawina:interactive_choose_theme' %}" class="text-softbrown hover:underline">
         ← Back to Theme Selection
       </a>
     </div>
