@@ -1,5 +1,6 @@
 {% extends "theme/base_dashboard.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}{{ story.title }} - RAWINA{% endblock %}
 
@@ -14,7 +15,7 @@
     <div class="text-center">
       <h1 class="text-3xl font-bold text-deepviolet mb-2">{{ story.title }}</h1>
       <p class="text-sm text-gray-600 font-medium">
-        Theme: {{ story.get_theme_display }} • Created on {{ story.created_at|date:"F j, Y" }}
+        {% blocktrans %}Theme: {{ story.get_theme_display }} • Created on {{ story.created_at|date:"F j, Y" }}{% endblocktrans %}
       </p>
     </div>
 
@@ -22,10 +23,9 @@
       <p>{{ story.generated_text|linebreaks }}</p>
     </div>
 
-
     <div class="text-center text-sm text-gray-600">
       <a href="{% url 'rawina:dashboard' %}" class="text-softbrown hover:underline">
-        Back to Dashboard
+        {% trans "Back to Dashboard" %}
       </a>
     </div>
   </div>

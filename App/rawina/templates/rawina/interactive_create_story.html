@@ -1,7 +1,8 @@
 {% extends "theme/base_dashboard.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Interactive Story Setup - RAWINA{% endblock %}
+{% block title %}{% trans "Interactive Story Setup - RAWINA" %}{% endblock %}
 
 {% block content %}
 <div 
@@ -11,13 +12,13 @@
   <div class="border-4 border-sand-beige rounded-lg shadow-2xl p-8 bg-sage-green backdrop-blur-sm">
     
     <h2 class="text-3xl font-bold text-softbrown text-center">
-      Start Your Interactive Story
+      {% trans "Start Your Interactive Story" %}
     </h2>
 
     {% if form.initial.theme %}
     <div class="mb-4 text-center">
         <span class="inline-block bg-sage-green text-white text-sm font-semibold px-4 py-2 rounded-full">
-        Selected Theme: {{ form.initial.theme|title }}
+          {% trans "Selected Theme:" %} {{ form.initial.theme|title }}
         </span>
     </div>
     {% endif %}
@@ -26,30 +27,30 @@
       {% csrf_token %}
 
       <div>
-        <label class="block text-softbrown font-semibold mb-1">Character Name</label>
-        <input type="text" name="character_name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue" placeholder="e.g. Lina" required>
+        <label class="block text-softbrown font-semibold mb-1">{% trans "Character Name" %}</label>
+        <input type="text" name="character_name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue" placeholder="{% trans 'e.g. Lina' %}" required>
       </div>
 
       <div>
-        <label class="block text-softbrown font-semibold mb-1">Character Description</label>
-        <input type="text" name="character_type" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue" placeholder="e.g. a brave cat" required>
+        <label class="block text-softbrown font-semibold mb-1">{% trans "Character Description" %}</label>
+        <input type="text" name="character_type" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue" placeholder="{% trans 'e.g. a brave cat' %}" required>
       </div>
 
       <div>
-        <label class="block text-softbrown font-semibold mb-1">Story Setting</label>
-        <input type="text" name="setting" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue" placeholder="e.g. a floating castle" required>
+        <label class="block text-softbrown font-semibold mb-1">{% trans "Story Setting" %}</label>
+        <input type="text" name="setting" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-powder-blue" placeholder="{% trans 'e.g. a floating castle' %}" required>
       </div>
 
       <input type="hidden" name="theme" value="{{ form.initial.theme }}">
 
       <button type="submit" class="w-full mt-4 bg-light-sienna text-white font-semibold py-3 rounded-lg hover:bg-sage-green transition">
-        Launch Story
+        {% trans "Launch Story" %}
       </button>
     </form>
 
     <div class="text-center text-sm text-gray-600 mt-4">
       <a href="{% url 'rawina:interactive_choose_theme' %}" class="text-softbrown hover:underline">
-        ← Back to Theme Selection
+        ← {% trans "Back to Theme Selection" %}
       </a>
     </div>
   </div>

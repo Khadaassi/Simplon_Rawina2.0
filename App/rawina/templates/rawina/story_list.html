@@ -1,7 +1,8 @@
 {% extends "theme/base_dashboard.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Your Stories - RAWINA{% endblock %}
+{% block title %}{% trans "Your Stories - RAWINA" %}{% endblock %}
 
 {% block content %}
 <div 
@@ -10,7 +11,7 @@
 
   <div class="absolute inset-0 bg-black/40"></div>
     <div class="w-full max-w-4xl border-4 border-sage-green rounded-lg shadow-2xl p-8 bg-sage-green backdrop-blur-sm">
-        <h2 class="text-3xl font-bold text-sand-beige mb-8 text-center">Your Stories</h2>
+        <h2 class="text-3xl font-bold text-sand-beige mb-8 text-center">{% trans "Your Stories" %}</h2>
         
         {% if stories %}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -18,20 +19,24 @@
                     <div class="bg-sand-beige rounded-xl shadow-md border border-deepviolet p-6 flex flex-col justify-between">
                         <div>
                             <h3 class="text-xl font-bold text-deepviolet">{{ story.title }}</h3>
-                            <p class="text-sm text-gray-700 mt-1">Created on {{ story.created_at|date:"F j, Y" }}</p>
-                            <p class="text-sm italic text-light-sienna mt-2">Theme: {{ story.theme|capfirst }}</p>
+                            <p class="text-sm text-gray-700 mt-1">
+                                {% blocktrans %}Created on {{ story.created_at|date:"F j, Y" }}{% endblocktrans %}
+                            </p>
+                            <p class="text-sm italic text-light-sienna mt-2">
+                                {% blocktrans %}Theme: {{ story.theme|capfirst }}{% endblocktrans %}
+                            </p>
                         </div>
                         <div class="mt-4 flex justify-between items-center space-x-2">
                             <a href="{% url 'rawina:story' story.id %}" class="text-deepviolet font-semibold hover:underline">
-                                Read more →
+                                {% trans "Read more →" %}
                             </a>
                             <a href="?pdf=1&id={{ story.id }}" class="text-sm text-sage-green underline hover:text-deepviolet">
-                                ⬇ Download PDF
+                                {% trans "⬇ Download PDF" %}
                             </a>
                             <form method="post" action="{% url 'rawina:story_delete' story.id %}" class="inline">
                                 {% csrf_token %}
                                 <button type="submit" class="text-deepviolet hover:underline text-sm">
-                                    🗑 Delete
+                                    🗑 {% trans "Delete" %}
                                 </button>
                             </form>
                         </div>
@@ -39,14 +44,17 @@
                 {% endfor %}
             </div>
         {% else %}
-            <p class="text-center text-sand-beige">You haven't created any stories yet.
-                <a href="{% url 'rawina:choose_theme' %}" class="text-white underline">Start here</a>.
+            <p class="text-center text-sand-beige">
+                {% trans "You haven't created any stories yet." %}
+                <a href="{% url 'rawina:choose_theme' %}" class="text-white underline">
+                    {% trans "Start here" %}
+                </a>.
             </p>
         {% endif %}
 
         <div class="text-center text-sm text-gray-600 mt-6">
             <a href="{% url 'rawina:dashboard' %}" class="text-softbrown hover:underline">
-                Back to Dashboard
+                {% trans "Back to Dashboard" %}
             </a>
         </div>
     </div>

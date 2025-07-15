@@ -34,6 +34,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    'django.middleware.locale.LocaleMiddleware',
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -102,3 +103,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # ✅ FIXED: was 'App/media'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
+
+LANGUAGE_CODE = 'en'
+LANGUAGES = [
+    ('fr', 'Français'),
+    ('en', 'English'),
+]
+
+LOCALE_PATHS = [BASE_DIR / 'locale']
+

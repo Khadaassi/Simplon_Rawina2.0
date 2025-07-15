@@ -9,9 +9,11 @@
     </style>
 </head>
 <body>
+    {% load i18n %}
+
     <h1>{{ story.title }}</h1>
-    <p><strong>Theme:</strong> {{ story.theme|capfirst }}</p>
-    <p><strong>Date:</strong> {{ story.created_at|date:"F j, Y" }}</p>
+    <p><strong>{% trans "Theme:" %}</strong> {{ story.theme|capfirst }}</p>
+    <p><strong>{% trans "Date:" %}</strong> {{ story.created_at|date:"F j, Y" }}</p>
     <hr>
     <p>{{ story.generated_text|linebreaks }}</p>
 </body>

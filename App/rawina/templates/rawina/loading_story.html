@@ -1,20 +1,20 @@
 {% extends "theme/base_dashboard.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Generating Story...{% endblock %}
+{% block title %}{% trans "Generating Story..." %}{% endblock %}
 
 {% block content %}
 <div class="min-h-screen bg-gradient-to-b from-sand-beige to-lavender flex flex-col items-center justify-center px-6 py-16 text-center relative">
 
-  <img src="{% static 'images/owl_loader.gif' %}" alt="Loading Owl" class="w-32 h-32 mb-6 animate-bounce" />
+  <img src="{% static 'images/owl_loader.gif' %}" alt="{% trans 'Loading Owl' %}" class="w-32 h-32 mb-6 animate-bounce" />
 
   <h2 class="text-3xl font-bold text-deepviolet mb-2 tracking-wide">
-    Rawi is creating your story...
+    {% trans "Rawi is creating your story..." %}
   </h2>
 
   <p class="text-gray-800 text-lg max-w-xl mx-auto mb-6">
-    He's gathering sparkles, ideas, and imagination to create something magical for you.
-    Please wait a few seconds while the tale comes to life.
+    {% trans "He's gathering sparkles, ideas, and imagination to create something magical for you. Please wait a few seconds while the tale comes to life." %}
   </p>
 
   <div class="mt-4">
@@ -24,7 +24,7 @@
     </svg>
   </div>
 
-  <p class="mt-6 text-sm text-gray-500">Your adventure is almost ready...</p>
+  <p class="mt-6 text-sm text-gray-500">{% trans "Your adventure is almost ready..." %}</p>
 
 </div>
 

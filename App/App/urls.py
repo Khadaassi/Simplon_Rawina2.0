@@ -22,13 +22,14 @@ from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('user.urls', namespace='user')),
     path('rawina/', include('rawina.urls', namespace='rawina')),
     path('', RedirectView.as_view(url=reverse_lazy('user:home'))),
     path("__reload__/", include("django_browser_reload.urls")),
+    path('i18n/', include('django.conf.urls.i18n')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

@@ -1,6 +1,10 @@
-{% extends "theme/base_dashboard.html" %} 
+{% extends "theme/base_dashboard.html" %}
 {% load static %}
-{% block title%}Dashboard - RAWINA{% endblock %} {% block content %}
+{% load i18n %}
+
+{% block title %}{% trans "Dashboard - RAWINA" %}{% endblock %}
+
+{% block content %}
 <div
   class="min-h-screen bg-sand-beige flex items-center justify-center px-6 py-16 shadow-lg border-y-4 border-sage-green bg-cover bg-center"
   style="background-image: url('{% static 'images/forest_bg.png' %}')"
@@ -9,89 +13,71 @@
   <aside
     class="w-64 p-6 border-4 border-sage-green rounded-lg shadow-2xl p-8 text-center bg-sage-green backdrop-blur-sm"
   >
-    <h2 class="text-2xl font-bold text-sand-beige text-center">Tools</h2>
+    <h2 class="text-2xl font-bold text-sand-beige text-center">{% trans "Tools" %}</h2>
     <ul class="mt-4 space-y-2">
       <li>
-        <a
-          href="{% url 'rawina:choose_theme' %}"
-          class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition"
-        >
-          Create Story
+        <a href="{% url 'rawina:choose_theme' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+          {% trans "Create Story" %}
         </a>
       </li>
       <li>
-        <a
-          href="{% url 'rawina:interactive_choose_theme' %}"
-          class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition"
-        >
-          Interactive Story
-        </a>
-      </li>
-
-      <li>
-        <a
-          href="{% url 'rawina:story_list' %}"
-          class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition"
-        >
-          All Stories
+        <a href="{% url 'rawina:interactive_choose_theme' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+          {% trans "Interactive Story" %}
         </a>
       </li>
       <li>
-        <a
-          href="{% url 'user:account_settings' %}"
-          class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition"
-        >
-          Account Settings
+        <a href="{% url 'rawina:story_list' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+          {% trans "All Stories" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'user:account_settings' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+          {% trans "Account Settings" %}
         </a>
       </li>
     </ul>
   </aside>
-  <div
-    class="w-full max-w-3xl space-y-6 border-4 border-sage-green rounded-lg shadow-2xl p-8 text-center bg-sage-green backdrop-blur-sm"
-  >
+
+  <div class="w-full max-w-3xl space-y-6 border-4 border-sage-green rounded-lg shadow-2xl p-8 text-center bg-sage-green backdrop-blur-sm">
     <div class="flex justify-center mb-4">
       <img src="{% static 'images/rawi3.png' %}" alt="RAWI" class="w-8 h-8" />
       <h2 class="text-2xl font-bold text-sand-beige text-center">
-        Welcome to Your Dashboard, {{ user.username }}!
+        {% blocktrans %}Welcome to Your Dashboard, {{ user.username }}!{% endblocktrans %}
       </h2>
     </div>
     <p class="text-gray-600 text-center">
-      Here you can manage your stories and account settings.
+      {% trans "Here you can manage your stories and account settings." %}
     </p>
+
     <div class="mt-6 text-center">
       <a
         href="{% url 'rawina:interactive_choose_theme' %}"
         class="inline-block bg-deepviolet text-sand-beige font-semibold py-2 px-4 rounded-xl shadow hover:bg-sage-green transition duration-200"
       >
-        Start an Interactive Story Adventure
+        {% trans "Start an Interactive Story Adventure" %}
       </a>
     </div>
 
     <div class="space-y-4">
       <h3 class="text-xl font-semibold text-sand-beige text-center">
-        Your Stories
+        {% trans "Your Stories" %}
       </h3>
       <ul class="space-y-2">
         {% for story in stories %}
         <li>
-          <a
-            href="{% url 'rawina:story' story.id %}"
-            class="text-deepviolet hover:underline"
-          >
+          <a href="{% url 'rawina:story' story.id %}" class="text-deepviolet hover:underline">
             {{ story.title }}
           </a>
           <span class="text-sm text-gray-500">
-            — {{ story.created_at|date:"M j" }}</span
-          >
+            — {{ story.created_at|date:"M j" }}
+          </span>
         </li>
         {% empty %}
         <li class="text-gray-600">
-          You have no stories yet.
-          <a
-            href="{% url 'rawina:choose_theme' %}"
-            class="text-deepviolet hover:underline"
-            >Start writing</a
-          >.
+          {% trans "You have no stories yet." %}
+          <a href="{% url 'rawina:choose_theme' %}" class="text-deepviolet hover:underline">
+            {% trans "Start writing" %}
+          </a>.
         </li>
         {% endfor %}
       </ul>

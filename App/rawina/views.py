@@ -7,6 +7,7 @@ from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import FormView
@@ -23,10 +24,6 @@ from ia_engine.nodes.reviewer import review_story
 from ia_engine.nodes.narrator import InteractiveNarrator
 from ia_engine.nodes.title_agent import generate_title_from_scene, generate_title_from_story
 
-
-# from ia_engine.nodes.cleaner import review_scene_and_choices
-
-
 # === Static story generation ===
 def _generate_and_save(story_id, payload):
     enriched_prompt = payload.get("enriched_prompt", "")
@@ -39,10 +36,11 @@ def _generate_and_save(story_id, payload):
             "Keep it between 10 and 15 sentences, with a warm and vivid tone."
         ).content
         story_text = review_story(raw_text)
-        title = generate_title_from_story(story_text)
+        title = generate_title_from_story(story_text) or _("Untitled Story")
     except Exception as e:
         print("Generation error:", e)
-        story_text = "⚠️ Story generation failed."
+        story_text = _("⚠️ Story generation failed.")
+        title = _("Untitled Story")
 
     story = Story.objects.get(pk=story_id)
     story.generated_text = story_text
@@ -56,9 +54,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            ctx["stories"] = Story.objects.filter(user=self.request.user).order_by(
-                "-created_at"
-            )[:3]
+            ctx["stories"] = Story.objects.filter(user=self.request.user).order_by("-created_at")[:3]
         return ctx
 
 
@@ -75,12 +71,9 @@ class StoryListView(LoginRequiredMixin, ListView):
             story = get_object_or_404(Story, id=request.GET["id"], user=request.user)
             html = render_to_string("rawina/story_pdf.html", {"story": story})
             response = HttpResponse(content_type="application/pdf")
-            response["Content-Disposition"] = (
-                f'attachment; filename="{story.title}.pdf"'
-            )
+            response["Content-Disposition"] = f'attachment; filename="{story.title}.pdf"'
             pisa.CreatePDF(html, dest=response)
             return response
-
         return super().get(request, *args, **kwargs)
 
 
@@ -131,11 +124,10 @@ class StoryCreateView(LoginRequiredMixin, FormView):
 
         story = Story.objects.create(
             user=self.request.user,
-            title=f"{form.cleaned_data['name'].capitalize()}'s Story",
+            title=_("{name}'s Story").format(name=form.cleaned_data['name'].capitalize()),
             theme=form.cleaned_data["theme"],
-            generated_text="",  # À mettre à jour plus tard si besoin
+            generated_text="",
         )
-
 
         threading.Thread(
             target=_generate_and_save, args=(story.pk, payload), daemon=True
@@ -166,7 +158,6 @@ class StoryDeleteView(LoginRequiredMixin, View):
         story = get_object_or_404(Story, pk=pk, user=request.user)
         story.delete()
         return redirect(reverse("rawina:story_list"))
-
 
 # === Interactive narrator views ===
 class NarratorSetupView(LoginRequiredMixin, FormView):
@@ -208,10 +199,7 @@ class InteractiveNarratorView(LoginRequiredMixin, View):
         raw_bytes = base64.b64decode(encoded)
         narrator = pickle.loads(raw_bytes)
 
-        # Last scene and choices
-        last = (
-            narrator.history[-1] if narrator.history else {"scene": "", "choices": []}
-        )
+        last = narrator.history[-1] if narrator.history else {"scene": "", "choices": []}
 
         return render(
             request,
@@ -227,7 +215,7 @@ class InteractiveNarratorView(LoginRequiredMixin, View):
     def post(self, request):
         encoded = request.session.get("narrator")
         if not encoded:
-            raise Http404("Narrator session not found.")
+            raise Http404(_("Narrator session not found."))
 
         raw_bytes = base64.b64decode(encoded)
         narrator = pickle.loads(raw_bytes)
@@ -235,38 +223,35 @@ class InteractiveNarratorView(LoginRequiredMixin, View):
         user_choice = request.POST.get("choice")
         next_step = narrator.next_scene(user_choice)
 
-        # Save
-        request.session["narrator"] = base64.b64encode(pickle.dumps(narrator)).decode(
-            "utf-8"
-        )
+        request.session["narrator"] = base64.b64encode(pickle.dumps(narrator)).decode("utf-8")
+
         if narrator.is_finished():
             final_story = narrator.final_story()
-            # Retrieve config from session or narrator if possible
             config = getattr(narrator, "config", {})
             theme = config.get("theme", "")
 
             scene = narrator.history[0]["scene"]
-            title = generate_title_from_scene(scene)
+            title = generate_title_from_scene(scene) or _("Untitled Story")
 
             Story.objects.create(
                 user=self.request.user,
                 title=title,
-                theme= theme,
-                generated_text="",
+                theme=theme,
+                generated_text=final_story,
             )
 
-
-        return render(request, self.template_name, {
-            "scene": next_step["scene"],
-            "choices": next_step["choices"],
-            "finished": narrator.is_finished(),
-            "history": narrator.history if narrator.is_finished() else None,
-        })
+        return render(
+            request,
+            self.template_name,
+            {
+                "scene": next_step["scene"],
+                "choices": next_step["choices"],
+                "finished": narrator.is_finished(),
+                "history": narrator.history if narrator.is_finished() else None,
+            },
+        )
 
     def save_narrator(self, narrator):
-        """
-        Save the narrator state to the session.
-        """
         raw_bytes = pickle.dumps(narrator)
         encoded = base64.b64encode(raw_bytes).decode("utf-8")
         self.request.session["narrator"] = encoded
