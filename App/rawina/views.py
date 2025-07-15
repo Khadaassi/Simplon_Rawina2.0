@@ -243,7 +243,7 @@ class InteractiveNarratorView(LoginRequiredMixin, View):
             final_story = narrator.final_story()
             # Retrieve config from session or narrator if possible
             config = getattr(narrator, "config", {})
-            theme = config.get("theme", "Adventure")
+            theme = config.get("theme", "")
 
             scene = narrator.history[0]["scene"]
             title = generate_title_from_scene(scene)
