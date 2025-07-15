@@ -119,4 +119,9 @@ Projet en développement. Version stable partielle disponible (génération de t
 
 ## Auteur
 
-Projet réalisé par Khadija Khadaassi, formation IA Simplon 2025.
+Khadija Aassi 
+<a href="https://github.com/Khadaassi" target="_blank">
+    <img loading="lazy" src="App/theme/static/images/github-mark.png" width="30" height="30" style="vertical-align: middle; float: middle; margin-left: 40px;" alt="GitHub Logo">
+</a>
+
+
