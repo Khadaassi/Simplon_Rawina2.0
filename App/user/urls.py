@@ -9,7 +9,7 @@ from .views import (
     # LogoutView,
     AccountSettingsView,
     EditProfileView,
-    ChangePasswordView
+    ChangePasswordView,
 )
 
 app_name = "user"
