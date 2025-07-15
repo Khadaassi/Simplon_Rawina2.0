@@ -1,0 +1,47 @@
+{% extends "theme/base_dashboard.html" %}
+
+{% load static %}
+
+{% block title %}Account Settings - RAWINA{% endblock %}
+
+{% block content %}
+
+<div   class="min-h-screen bg-sand-beige flex items-center justify-center px-6 py-16 shadow-lg border-y-4 border-sage-green bg-cover bg-center"
+  style="background-image: url('{% static 'images/forest_bg.png' %}')"> 
+  
+  
+  <div class="absolute inset-0 bg-black/40"></div>
+    <aside class="w-64 p-6 border-4 border-sage-green rounded-lg shadow-2xl p-8 text-center bg-sage-green backdrop-blur-sm">
+        <h3 class="text-2xl font-bold text-sand-beige text-center">Settings</h3>
+                <ul class="list-none space-y-2">
+                    <li>
+                        <a href="{% url 'rawina:dashboard' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'user:edit_profile' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+                            Edit Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'user:change_password' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+                            Change Password
+                        </a>
+                    </li>
+
+                </ul>
+    </aside>
+    <div class="w-full max-w-3xl space-y-6 border-4 border-sage-green rounded-lg shadow-2xl p-8 text-center bg-sage-green backdrop-blur-sm">
+        <h1 class="text-3xl font-bold text-sand-beige text-center">Welcome to Your Account</h1>
+        <p class="text-gray-600 mb-6">Manage your account settings and preferences.</p>
+        <div class="mt-8">
+            <h3 class="text-xl font-semibold text-deepviolet">Account Information</h3>
+            <p class="text-gray-600">Username: {{ user.username }}</p>
+            <p class="text-gray-600">Email: {{ user.email }}</p>
+        </div>
+    </div>
+</div>
+{% include "theme/back_button.html" %}
+
+{% endblock %}

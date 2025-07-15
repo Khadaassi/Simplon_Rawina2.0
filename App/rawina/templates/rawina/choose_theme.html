@@ -1,0 +1,67 @@
+{% extends "theme/base_dashboard.html" %}
+{% load static %}
+
+{% block title %}Create Story - RAWINA{% endblock %}
+
+{% block content %}
+<div 
+  class="min-h-screen bg-sand-beige flex items-center justify-center px-6 py-16 shadow-lg border-y-4 border-sage-green bg-cover bg-center"
+  style="background-image: url('{% static 'images/forest_bg.png' %}')"> 
+  <div class="absolute inset-0 bg-black/40"></div>
+  <div class="border-4 border-sand-beige rounded-lg shadow-2xl p-8 bg-sage-green backdrop-blur-sm">
+    <h2 class="text-3xl font-bold text-sand-beige text-center">
+      Choose Your Adventure Theme
+    </h2>
+
+    <form method="post" action="{% url 'rawina:choose_theme' %}">
+      {% csrf_token %}
+
+      <div class="flex flex-col sm:flex-row gap-6 justify-center items-stretch text-left">
+        <!-- Fantasy -->
+        <label class="flex-1 cursor-pointer">
+          <input type="radio" name="theme" value="fantasy" class="peer hidden" required>
+          <div class="h-full border-2 border-transparent rounded-lg p-6 bg-white transition-all
+                      shadow-md hover:shadow-lg hover:border-sage-green
+                      peer-checked:border-light-sienna peer-checked:bg-sand-beige/70 peer-checked:shadow-xl flex flex-col items-center text-center space-y-2">
+            <div class="text-xl font-bold text-deepviolet">Fantasy</div>
+            <p class="text-sm text-gray-600">Magic, castles, dragons...</p>
+          </div>
+        </label>
+
+        <!-- Animals -->
+        <label class="flex-1 cursor-pointer">
+          <input type="radio" name="theme" value="animals" class="peer hidden" required>
+          <div class="h-full border-2 border-transparent rounded-lg p-6 bg-white transition-all
+                      shadow-md hover:shadow-lg hover:border-sage-green
+                      peer-checked:border-light-sienna peer-checked:bg-sand-beige/70 peer-checked:shadow-xl flex flex-col items-center text-center space-y-2">
+            <div class="text-xl font-bold text-deepviolet">Animals</div>
+            <p class="text-sm text-gray-600">Tales with furry friends.</p>
+          </div>
+        </label>
+
+        <!-- Daily Hero -->
+        <label class="flex-1 cursor-pointer">
+          <input type="radio" name="theme" value="daily_hero" class="peer hidden" required>
+          <div class="h-full border-2 border-transparent rounded-lg p-6 bg-white transition-all
+                      shadow-md hover:shadow-lg hover:border-sage-green
+                      peer-checked:border-light-sienna peer-checked:bg-sand-beige/70 peer-checked:shadow-xl flex flex-col items-center text-center space-y-2">
+            <div class="text-xl font-bold text-deepviolet">Daily Hero</div>
+            <p class="text-sm text-gray-600">Courage in everyday life.</p>
+          </div>
+        </label>
+      </div>
+
+      <div class="mt-8">
+        <button type="submit"
+                class="w-full mt-4 bg-light-sienna text-white font-semibold py-3 rounded-lg hover:bg-light-sienna transition">
+          Create Story
+        </button>
+      </div>
+    </form>
+
+    <div class="text-center text-sm text-gray-600">
+      <a href="{% url 'rawina:dashboard' %}" class="text-softbrown hover:underline">Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

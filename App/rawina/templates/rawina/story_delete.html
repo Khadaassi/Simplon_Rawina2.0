@@ -1,0 +1,33 @@
+{% extends "theme/base_dashboard.html" %}
+{% load static %}
+
+{% block title %}Delete Story - RAWINA{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-sand-beige flex items-center justify-center px-6 py-16 shadow-lg border-y-4 border-sage-green bg-cover bg-center"
+     style="background-image: url('{% static 'images/forest_bg.png' %}')">
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="relative z-10 w-full max-w-3xl border-4 border-sand-beige rounded-lg shadow-2xl p-8 bg-sage-green backdrop-blur-sm">
+        <h2 class="text-3xl font-bold text-sand-beige mb-6 text-center">Delete Story</h2>
+        <p class="text-lg text-gray-600 mb-6 text-center">
+            Are you sure you want to delete the story "<strong>{{ story.title }}</strong>"?
+        </p>
+        <p class="text-sm text-gray-500 mb-6 text-center">      
+            This action cannot be undone. All data associated with this story will be permanently removed.
+        </p>
+        <div class="flex justify-center space-x-4">
+            <form method="post" action="{% url 'rawina:story_delete' story.id %}">
+                {% csrf_token %}
+                <button type="submit"
+                        class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition">
+                    Delete Story
+                </button>
+            </form>
+            <a href="{% url 'rawina:story_list' %}"
+               class="bg-gray-300 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-400 transition">
+                Cancel
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

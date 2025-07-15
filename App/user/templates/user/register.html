@@ -1,0 +1,54 @@
+{% extends "theme/base_login.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RAWINA{% endblock %}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap">
+    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+</head>
+
+{% block content %}
+<div 
+  class="min-h-screen bg-sand-beige flex items-center justify-center px-6 py-16 shadow-lg border-y-4 border-sage-green bg-cover bg-center"
+  style="background-image: url('{% static 'images/forest_bg.png' %}')"> 
+  
+  
+  <div class="absolute inset-0 bg-black/40"></div>
+
+  <div class="relative z-10 border-4 border-sand-beige rounded-lg shadow-2xl p-8 text-center bg-sage-green backdrop-blur-sm"> 
+        <h2 class="text-2xl font-bold text-sand-beige text-center">
+            Create Your RAWINA Account
+        </h2>    
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div>
+                    <label class="block text-sage-green font-semibold mb-1">{{ field.label }}</label>
+                    <div class="relative">
+                        {{ field }}
+                    </div>
+                    {% if field.help_text %}
+                        <p class="text-gray-500 text-xs mt-1">{{ field.help_text }}</p>
+                    {% endif %}
+                    {% if field.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="w-full mt-4 bg-paleblue text-paleviolet py-2 rounded-lg hover:underline transition">
+                Sign Up
+            </button>
+        </form>
+        <div class="text-center text-sm text-gray-600">
+            Already have an account? 
+            <a href="{% url 'user:login' %}" class="text-sand-beige hover:underline">Log In</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

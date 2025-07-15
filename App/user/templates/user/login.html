@@ -1,0 +1,48 @@
+{% extends "theme/base_login.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Login - RAWINA{% endblock %}</title>
+    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+</head>
+
+{% block content %}
+<div   
+  class="min-h-screen bg-sand-beige flex items-center justify-center px-6 py-16 shadow-lg border-y-4 border-sage-green bg-cover bg-center"
+  style="background-image: url('{% static 'images/forest_bg.png' %}')"> 
+  
+  
+  <div class="absolute inset-0 bg-black/40"></div>
+
+  <div class="relative z-10 border-4 border-sand-beige rounded-lg shadow-2xl p-8 text-center bg-sage-green backdrop-blur-sm"> 
+        <h2 class="text-2xl font-bold text-sand-beige text-center">
+            Login to your Account
+        </h2>   
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+
+            <div>
+                <label class="block text-sage-green font-semibold mb-1">Username</label>
+                <input type="text" name="username" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-skyblue focus:outline-none">
+            </div>
+
+            <div>
+                <label class="block text-sage-green font-semibold mb-1">Password</label>
+                <input type="password" name="password" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-skyblue focus:outline-none">
+            </div>
+
+            <button type="submit" class="w-full mt-4 bg-paleblue text-paleviolet py-2 rounded-lg hover:bg-fairy transition">
+                Login
+            </button>
+        </form>
+        <div class="text-center text-sm text-gray-600">
+            Don't have an account yet?
+            <a href="{% url 'user:register' %}" class="text-sand-beige hover:underline">Sign Up</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
