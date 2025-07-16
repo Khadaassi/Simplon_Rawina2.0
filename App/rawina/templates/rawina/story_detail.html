@@ -20,7 +20,15 @@
     </div>
 
     <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed">
-      <p>{{ story.generated_text|linebreaks }}</p>
+          {% get_current_language as LANGUAGE_CODE %}
+
+      <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed">
+        {% if LANGUAGE_CODE == "fr" %}
+          <p>{{ story.generated_text_fr|linebreaks }}</p>
+        {% else %}
+          <p>{{ story.generated_text_en|linebreaks }}</p>
+        {% endif %}
+      </div>
     </div>
 
     <div class="text-center text-sm text-gray-600">

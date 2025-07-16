@@ -18,8 +18,8 @@ class Story(models.Model):
     )
     title = models.CharField(_("Title"), max_length=100)
     theme = models.CharField(_("Theme"), max_length=20, choices=THEME_CHOICES)
-    generated_text = models.TextField(_("Generated Text"), help_text=_("Automatically generated text"))
-
+    generated_text_en = models.TextField(_("Generated Text (English)"), help_text=_("Automatically generated text"), null=True, blank=True)
+    generated_text_fr = models.TextField(_("Generated Text (French)"), help_text=_("Automatically generated text"), null=True, blank=True)
     created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
 
     def __str__(self):
