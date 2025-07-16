@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RAWINA 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-15 15:08+0200\n"
+"POT-Creation-Date: 2025-07-16 13:28+0200\n"
 "PO-Revision-Date: 2025-07-15 15:00+0200\n"
 "Last-Translator: Khadija <khadija@example.com>\n"
 "Language-Team: French\n"
@@ -102,12 +102,18 @@ msgid "Title"
 msgstr "Titre"
 
 #: App/rawina/models.py:21
-msgid "Generated Text"
+#| msgid "Generated Text"
+msgid "Generated Text (English)"
 msgstr "Texte généré"
 
-#: App/rawina/models.py:21
+#: App/rawina/models.py:21 App/rawina/models.py:22
 msgid "Automatically generated text"
 msgstr "Texte généré automatiquement"
+
+#: App/rawina/models.py:22
+#| msgid "Generated Text"
+msgid "Generated Text (French)"
+msgstr "Texte généré"
 
 #: App/rawina/models.py:23
 msgid "Created At"
@@ -148,8 +154,8 @@ msgstr "Créer une Histoire"
 #: App/rawina/templates/rawina/interactive_choose_theme.html:67
 #: App/rawina/templates/rawina/interactive_narrator.html:63
 #: App/rawina/templates/rawina/narrator_end.html:46
-#: App/rawina/templates/rawina/story_detail.html:28
-#: App/rawina/templates/rawina/story_list.html:57
+#: App/rawina/templates/rawina/story_detail.html:38
+#: App/rawina/templates/rawina/story_list.html:61
 msgid "Back to Dashboard"
 msgstr "Retour au Tableau de Bord"
 
@@ -199,6 +205,7 @@ msgstr "Histoire Interactive"
 #: App/rawina/templates/rawina/dashboard.html:30
 msgid "All Stories"
 msgstr "Toutes les Histoires"
+
 #: App/rawina/templates/rawina/dashboard.html:35
 msgid "Account Settings"
 msgstr "Paramètres du Compte"
@@ -284,6 +291,7 @@ msgstr "L’histoire est terminée ! Merci d’avoir joué."
 #: App/rawina/templates/rawina/interactive_narrator.html:22
 msgid "Full Story:"
 msgstr "Histoire Complète :"
+
 #: App/rawina/templates/rawina/interactive_narrator.html:33
 msgid "Start New Story"
 msgstr "Commencer une nouvelle histoire"
@@ -313,7 +321,9 @@ msgid ""
 "He's gathering sparkles, ideas, and imagination to create something magical "
 "for you. Please wait a few seconds while the tale comes to life."
 msgstr ""
-"Il rassemble des étincelles, des idées et de l’imagination pour créer quelque chose de magique pour toi. Patiente quelques secondes pendant que le conte prend vie."
+"Il rassemble des étincelles, des idées et de l’imagination pour créer "
+"quelque chose de magique pour toi. Patiente quelques secondes pendant que le "
+"conte prend vie."
 
 #: App/rawina/templates/rawina/loading_story.html:27
 msgid "Your adventure is almost ready..."
@@ -366,18 +376,18 @@ msgid ""
 "This action cannot be undone. All data associated with this story will be "
 "permanently removed."
 msgstr ""
-"Cette action est irréversible. Toutes les données liées à cette histoire seront supprimées définitivement."
+"Cette action est irréversible. Toutes les données liées à cette histoire "
+"seront supprimées définitivement."
 
 #: App/rawina/templates/rawina/story_delete.html:34
 msgid "Cancel"
 msgstr "Annuler"
 
 #: App/rawina/templates/rawina/story_detail.html:18
+#,python-format
 #, python-format
-msgid ""
-"Theme: %(story.get_theme_display)s • Created on "
-"%(story.created_at|date:\"F j, Y\")s"
-msgstr "Thème : %(story.get_theme_display)s • Créée le %(story.created_at|date:\"j F Y\")s"
+msgid "Theme: %(theme)s • Created on %(created)s"
+msgstr "Thème : %(theme)s • Créée le %(created)s"
 
 #: App/rawina/templates/rawina/story_list.html:5
 msgid "Your Stories - RAWINA"
@@ -385,30 +395,31 @@ msgstr "Tes histoires - RAWINA"
 
 #: App/rawina/templates/rawina/story_list.html:23
 #, python-format
-msgid "Created on %(story.created_at|date:\"F j, Y\")s"
-msgstr "Créée le %(story.created_at|date:\"j F Y\")s"
+msgid "Created on %(created)s"
+msgstr "Créée le %(created)s"
 
-#: App/rawina/templates/rawina/story_list.html:26
+#: App/rawina/templates/rawina/story_list.html:28
 #, python-format
-msgid "Theme: %(story.theme|capfirst)s"
-msgstr "Thème : %(story.theme|capfirst)s"
-#: App/rawina/templates/rawina/story_list.html:31
+msgid "Theme: %(theme)s"
+msgstr "Thème : %(theme)s"
+
+#: App/rawina/templates/rawina/story_list.html:35
 msgid "Read more →"
 msgstr "Lire la suite →"
 
-#: App/rawina/templates/rawina/story_list.html:34
+#: App/rawina/templates/rawina/story_list.html:38
 msgid "⬇ Download PDF"
 msgstr "⬇ Télécharger le PDF"
 
-#: App/rawina/templates/rawina/story_list.html:39
+#: App/rawina/templates/rawina/story_list.html:43
 msgid "Delete"
 msgstr "Supprimer"
 
-#: App/rawina/templates/rawina/story_list.html:48
+#: App/rawina/templates/rawina/story_list.html:52
 msgid "You haven't created any stories yet."
 msgstr "Tu n’as pas encore créé d’histoires."
 
-#: App/rawina/templates/rawina/story_list.html:50
+#: App/rawina/templates/rawina/story_list.html:54
 msgid "Start here"
 msgstr "Commence ici"
 
@@ -420,19 +431,24 @@ msgstr "Thème :"
 msgid "Date:"
 msgstr "Date :"
 
-#: App/rawina/views.py:39 App/rawina/views.py:43 App/rawina/views.py:234
+#: App/rawina/views.py:60 App/rawina/views.py:67 App/rawina/views.py:264
 msgid "Untitled Story"
 msgstr "Histoire sans titre"
 
-#: App/rawina/views.py:42
+#: App/rawina/views.py:65
 msgid "⚠️ Story generation failed."
 msgstr "⚠️ Échec de la génération de l’histoire."
 
-#: App/rawina/views.py:127
+#: App/rawina/views.py:66
+msgid "⚠️ La génération de l'histoire a échoué."
+msgstr ""
+
+#: App/rawina/views.py:154
+#, python-brace-format
 msgid "{name}'s Story"
 msgstr "L’histoire de {name}"
 
-#: App/rawina/views.py:218
+#: App/rawina/views.py:245
 msgid "Narrator session not found."
 msgstr "Session du narrateur introuvable."
 
@@ -461,27 +477,27 @@ msgstr "Connexion"
 msgid "Sign Up"
 msgstr "Créer un compte"
 
-#: App/theme/templates/theme/base.html:50
-#: App/theme/templates/theme/base_dashboard.html:49
-#: App/theme/templates/theme/base_login.html:38
+#: App/theme/templates/theme/base.html:51
+#: App/theme/templates/theme/base_dashboard.html:50
+#: App/theme/templates/theme/base_login.html:39
 msgid "Toggle sound"
 msgstr "Activer/Désactiver le son"
-
-#: App/theme/templates/theme/base.html:62
-#: App/theme/templates/theme/base_dashboard.html:61
-#: App/theme/templates/theme/base_login.html:50
-msgid "Crafted with imagination."
-msgstr "Conçu avec imagination."
 
 #: App/theme/templates/theme/base.html:63
 #: App/theme/templates/theme/base_dashboard.html:62
 #: App/theme/templates/theme/base_login.html:51
+msgid "Crafted with imagination."
+msgstr "Conçu avec imagination."
+
+#: App/theme/templates/theme/base.html:64
+#: App/theme/templates/theme/base_dashboard.html:63
+#: App/theme/templates/theme/base_login.html:52
 msgid "All rights reserved."
 msgstr "Tous droits réservés."
 
-#: App/theme/templates/theme/base.html:87
-#: App/theme/templates/theme/base_dashboard.html:100
-#: App/theme/templates/theme/base_login.html:75
+#: App/theme/templates/theme/base.html:88
+#: App/theme/templates/theme/base_dashboard.html:101
+#: App/theme/templates/theme/base_login.html:76
 msgid "The browser blocked autoplay. Please check your settings."
 msgstr "Le navigateur a bloqué la lecture automatique. Vérifie tes paramètres."
 
@@ -492,6 +508,7 @@ msgstr "Audio non supporté"
 #: App/theme/templates/theme/base_dashboard.html:32
 msgid "Logout"
 msgstr "Déconnexion"
+
 #: App/user/forms.py:9 App/user/templates/user/edit_profile.html:22
 #: App/user/templates/user/login.html:30
 msgid "Username"
@@ -590,6 +607,7 @@ msgstr "Entre ton nouveau mot de passe"
 #: App/user/templates/user/change_password.html:33
 msgid "Confirm New Password"
 msgstr "Confirme le nouveau mot de passe"
+
 #: App/user/templates/user/change_password.html:36
 msgid "Confirm new password"
 msgstr "Confirme ton nouveau mot de passe"
@@ -623,7 +641,8 @@ msgstr "Bienvenue sur"
 msgid ""
 "A storybook maker for little dreamers — where imagination meets storytelling."
 msgstr ""
-"Un créateur d'histoires pour petits rêveurs — là où l’imagination rencontre le récit."
+"Un créateur d'histoires pour petits rêveurs — là où l’imagination rencontre "
+"le récit."
 
 #: App/user/templates/user/home.html:35
 msgid "How It Works"
@@ -637,7 +656,8 @@ msgstr "Choisis un thème"
 msgid ""
 "Fantasy, animals, or daily heroes — pick your favorite world to explore."
 msgstr ""
-"Fantastique, animaux ou héros du quotidien — choisis ton univers préféré à explorer."
+"Fantastique, animaux ou héros du quotidien — choisis ton univers préféré à "
+"explorer."
 
 #: App/user/templates/user/home.html:47
 msgid "Add some details"
@@ -645,7 +665,8 @@ msgstr "Ajoute quelques détails"
 
 #: App/user/templates/user/home.html:48
 msgid "Rawina will ask a few questions to get your imagination flowing."
-msgstr "Rawina te posera quelques questions pour faire jaillir ton imagination."
+msgstr ""
+"Rawina te posera quelques questions pour faire jaillir ton imagination."
 
 #: App/user/templates/user/home.html:53
 msgid "Get Your Story"
@@ -694,3 +715,19 @@ msgstr "Le nouveau mot de passe doit contenir au moins 8 caractères."
 #: App/user/views.py:93
 msgid "Your password has been changed successfully."
 msgstr "Ton mot de passe a bien été modifié."
+
+#, python-format
+#~ msgid ""
+#~ "Theme: %(story.get_theme_display)s • Created on "
+#~ "%(story.created_at|date:\"F j, Y\")s"
+#~ msgstr ""
+#~ "Thème : %(story.get_theme_display)s • Créée le "
+#~ "%(story.created_at|date:\"j F Y\")s"
+
+#, python-format
+#~ msgid "Created on %(story.created_at|date:\"F j, Y\")s"
+#~ msgstr "Créée le %(story.created_at|date:\"j F Y\")s"
+
+#, python-format
+#~ msgid "Theme: %(story.theme|capfirst)s"
+#~ msgstr "Thème : %(story.theme|capfirst)s"

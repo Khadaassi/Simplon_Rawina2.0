@@ -15,7 +15,9 @@
     <div class="text-center">
       <h1 class="text-3xl font-bold text-deepviolet mb-2">{{ story.title }}</h1>
       <p class="text-sm text-gray-600 font-medium">
-        {% blocktrans %}Theme: {{ story.get_theme_display }} • Created on {{ story.created_at|date:"F j, Y" }}{% endblocktrans %}
+        {% blocktrans with theme=story.get_theme_display created=story.created_at|date:"F j, Y" %}
+          Theme: {{ theme }} • Created on {{ created }}
+          {% endblocktrans %}
       </p>
     </div>
 

@@ -18,14 +18,18 @@
                 {% for story in stories %}
                     <div class="bg-sand-beige rounded-xl shadow-md border border-deepviolet p-6 flex flex-col justify-between">
                         <div>
-                            <h3 class="text-xl font-bold text-deepviolet">{{ story.title }}</h3>
-                            <p class="text-sm text-gray-700 mt-1">
-                                {% blocktrans %}Created on {{ story.created_at|date:"F j, Y" }}{% endblocktrans %}
-                            </p>
-                            <p class="text-sm italic text-light-sienna mt-2">
-                                {% blocktrans %}Theme: {{ story.theme|capfirst }}{% endblocktrans %}
-                            </p>
-                        </div>
+                    <h3 class="text-xl font-bold text-deepviolet">{{ story.title }}</h3>
+                    <p class="text-sm text-gray-700 mt-1">
+                        {% blocktrans with created=story.created_at|date:"F j, Y" %}
+                        Created on {{ created }}
+                        {% endblocktrans %}
+                    </p>
+                    <p class="text-sm italic text-light-sienna mt-2">
+                        {% blocktrans with theme=story.get_theme_display %}
+                        Theme: {{ theme }}
+                        {% endblocktrans %}
+                    </p>
+                    </div>
                         <div class="mt-4 flex justify-between items-center space-x-2">
                             <a href="{% url 'rawina:story' story.id %}" class="text-deepviolet font-semibold hover:underline">
                                 {% trans "Read more →" %}
