@@ -1,5 +1,10 @@
-{% extends "theme/base_dashboard.html" %} {% load static %} {% block title
-%}Edit Profile - RAWINA{% endblock %} {% block content %}
+{% extends "theme/base_dashboard.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Edit Profile - RAWINA" %}{% endblock %}
+
+{% block content %}
 <div
   class="min-h-screen bg-sand-beige flex items-center justify-center px-6 py-16 shadow-lg border-y-4 border-sage-green bg-cover bg-center"
   style="background-image: url('{% static 'images/forest_bg.png' %}')"
@@ -8,13 +13,13 @@
   <div
     class="relative z-10 border-4 border-sage-green rounded-lg shadow-2xl p-8 text-center bg-sage-green backdrop-blur-sm"
   >
-    <h2 class="text-3xl font-bold text-sand-beige text-center">Edit Profile</h2>
+    <h2 class="text-3xl font-bold text-sand-beige text-center">{% trans "Edit Profile" %}</h2>
 
     <form method="post" class="space-y-4">
       {% csrf_token %}
 
       <div>
-        <label class="block text-softbrown font-semibold mb-1">Username</label>
+        <label class="block text-softbrown font-semibold mb-1">{% trans "Username" %}</label>
         <input
           type="text"
           name="username"
@@ -25,7 +30,7 @@
       </div>
 
       <div>
-        <label class="block text-softbrown font-semibold mb-1">Email</label>
+        <label class="block text-softbrown font-semibold mb-1">{% trans "Email" %}</label>
         <input
           type="email"
           name="email"
@@ -35,13 +40,11 @@
         />
       </div>
 
-      <!-- Ajoute d'autres champs si besoin -->
-
       <button
         type="submit"
         class="w-full bg-light-sienna text-white font-semibold py-3 rounded-lg hover:bg-sage-green transition"
       >
-        Save Changes
+        {% trans "Save Changes" %}
       </button>
     </form>
 
@@ -50,7 +53,7 @@
         href="{% url 'user:account_settings' %}"
         class="text-softbrown hover:underline"
       >
-        Back to Account Settings
+        {% trans "Back to Account Settings" %}
       </a>
     </div>
   </div>

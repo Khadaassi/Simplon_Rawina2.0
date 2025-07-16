@@ -1,5 +1,6 @@
 {% extends "theme/base_dashboard.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}{{ story.title }} - RAWINA{% endblock %}
 
@@ -14,18 +15,27 @@
     <div class="text-center">
       <h1 class="text-3xl font-bold text-deepviolet mb-2">{{ story.title }}</h1>
       <p class="text-sm text-gray-600 font-medium">
-        Theme: {{ story.get_theme_display }} • Created on {{ story.created_at|date:"F j, Y" }}
+        {% blocktrans with theme=story.get_theme_display created=story.created_at|date:"F j, Y" %}
+          Theme: {{ theme }} • Created on {{ created }}
+          {% endblocktrans %}
       </p>
     </div>
 
     <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed">
-      <p>{{ story.generated_text|linebreaks }}</p>
-    </div>
+          {% get_current_language as LANGUAGE_CODE %}
 
+      <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed">
+        {% if LANGUAGE_CODE == "fr" %}
+          <p>{{ story.generated_text_fr|linebreaks }}</p>
+        {% else %}
+          <p>{{ story.generated_text_en|linebreaks }}</p>
+        {% endif %}
+      </div>
+    </div>
 
     <div class="text-center text-sm text-gray-600">
       <a href="{% url 'rawina:dashboard' %}" class="text-softbrown hover:underline">
-        Back to Dashboard
+        {% trans "Back to Dashboard" %}
       </a>
     </div>
   </div>

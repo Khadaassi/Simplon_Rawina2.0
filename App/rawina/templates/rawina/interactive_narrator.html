@@ -1,7 +1,8 @@
 {% extends "theme/base_dashboard.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Interactive Story - RAWINA{% endblock %}
+{% block title %}{% trans "Interactive Story - RAWINA" %}{% endblock %}
 
 {% block content %}
 <div 
@@ -12,37 +13,36 @@
   
   <div class="border-4 border-sand-beige rounded-lg shadow-2xl p-8 bg-sage-green backdrop-blur-sm w-full max-w-3xl z-10">
     
-    <h2 class="text-3xl font-bold text-sand-beige text-center mb-6">Your Interactive Adventure</h2>
+    <h2 class="text-3xl font-bold text-sand-beige text-center mb-6">{% trans "Your Interactive Adventure" %}</h2>
 
     {% if finished %}
-      <p class="text-xl text-white text-center mb-6">The story has ended! Thank you for playing.</p>
+      <p class="text-xl text-white text-center mb-6">{% trans "The story has ended! Thank you for playing." %}</p>
       
       <div class="bg-white rounded-xl p-6 shadow overflow-y-auto max-h-[55vh]">
-        <h3 class="text-lg font-bold text-deepviolet mb-4">Full Story:</h3>
+        <h3 class="text-lg font-bold text-deepviolet mb-4">{% trans "Full Story:" %}</h3>
         {% for step in history %}
           <div class="mb-6 p-4 bg-paleblue/20 rounded-lg text-gray-800 whitespace-pre-wrap">
-            <p> {{ step.scene }}</p>
+            <p>{{ step.scene }}</p>
           </div>
         {% endfor %}
-
       </div>
       
       <div class="text-center mt-6">
         <a href="{% url 'rawina:interactive_choose_theme' %}?restart=1"
            class="bg-deepviolet text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-sage-green transition">
-          Start New Story
+          {% trans "Start New Story" %}
         </a>
       </div>
 
     {% else %}
       <div class="bg-white rounded-xl p-6 shadow text-left mb-6">
-        <h3 class="text-lg font-bold text-deepviolet mb-2">Chapter</h3>
+        <h3 class="text-lg font-bold text-deepviolet mb-2">{% trans "Chapter" %}</h3>
         <p class="text-gray-800 whitespace-pre-wrap leading-relaxed">{{ scene }}</p>
       </div>
 
       {% if choices %}
         <div class="mt-4 text-center">
-          <p class="text-lg font-semibold text-sand-beige mb-4">What do you want to do next?</p>
+          <p class="text-lg font-semibold text-sand-beige mb-4">{% trans "What do you want to do next?" %}</p>
           <form method="post" class="flex flex-col sm:flex-row justify-center gap-4">
             {% csrf_token %}
             <button type="submit" name="choice" value="1"
@@ -59,7 +59,9 @@
     {% endif %}
 
     <div class="text-center text-sm mt-8 text-gray-300">
-      <a href="{% url 'rawina:dashboard' %}" class="text-softbrown hover:underline">← Back to Dashboard</a>
+      <a href="{% url 'rawina:dashboard' %}" class="text-softbrown hover:underline">
+        ← {% trans "Back to Dashboard" %}
+      </a>
     </div>
 
   </div>

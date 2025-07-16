@@ -1,5 +1,10 @@
-{% extends "theme/base_dashboard.html" %} {% load static %} {% block title %}The
-End - RAWINA{% endblock %} {% block content %}
+{% extends "theme/base_dashboard.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "The End - RAWINA" %}{% endblock %}
+
+{% block content %}
 <div
   class="min-h-screen bg-sand-beige flex items-center justify-center px-6 py-16 shadow-lg border-y-4 border-sage-green bg-cover bg-center"
   style="background-image: url('{% static 'images/forest_bg.png' %}')"
@@ -10,18 +15,19 @@ End - RAWINA{% endblock %} {% block content %}
     class="w-full max-w-3xl space-y-6 border-4 border-sand-beige rounded-lg shadow-2xl p-8 bg-sage-green backdrop-blur-sm z-10 text-center"
   >
     <h2 class="text-3xl font-bold text-deepviolet">
-      The End of Your Adventure
+      {% trans "The End of Your Adventure" %}
     </h2>
+
     <p class="text-gray-100 text-lg">
-      Thank you for exploring this interactive story!
+      {% trans "Thank you for exploring this interactive story!" %}
     </p>
 
     <div
       class="bg-white p-6 rounded-xl shadow text-left max-h-[500px] overflow-y-auto"
     >
-      <h3 class="text-xl font-bold text-deepviolet mb-2">Full Story</h3>
+      <h3 class="text-xl font-bold text-deepviolet mb-2">{% trans "Full Story" %}</h3>
       {% for step in history %}
-      <p class="whitespace-pre-wrap text-gray-800 mb-4">{{ step }}</p>
+        <p class="whitespace-pre-wrap text-gray-800 mb-4">{{ step }}</p>
       {% endfor %}
     </div>
 
@@ -30,14 +36,14 @@ End - RAWINA{% endblock %} {% block content %}
         href="{% url 'rawina:narration_setup' %}?restart=1"
         class="bg-deepviolet text-sand-beige font-semibold py-2 px-4 rounded-xl hover:bg-sage-green transition duration-200"
       >
-        Start a New Story
+        {% trans "Start a New Story" %}
       </a>
 
       <a
         href="{% url 'rawina:dashboard' %}"
         class="bg-light-sienna text-white font-semibold py-2 px-4 rounded-xl hover:bg-deepviolet transition duration-200"
       >
-        ← Back to Dashboard
+        ← {% trans "Back to Dashboard" %}
       </a>
     </div>
   </div>

@@ -21,5 +21,5 @@ urlpatterns = [
     path("account/", AccountSettingsView.as_view(), name="account_settings"),
     path("edit_profile/", EditProfileView.as_view(), name="edit_profile"),
     path("change_password/", ChangePasswordView.as_view(), name="change_password"),
-    path("logout/", LogoutView.as_view(), name="logout"),
+    path("logout/", LogoutView.as_view(next_page=reverse_lazy("user:home")), name="logout"),
 ]
