@@ -4,27 +4,20 @@ from ia_engine.llm_loader import get_groq_llm
 
 def review_scene_and_choices(scene: str, choices: list[str]) -> tuple[str, list[str]]:
     """
-    Cleans the scene and reformats choices into consistent, action-oriented statements.
+    Nettoie la scène et reformate les choix de manière cohérente.
     """
-    # Clean scene
     scene = scene.strip()
     scene = re.sub(r"\s+", " ", scene)
-    scene = scene.replace("Scene:", "").strip()
+    scene = scene.replace("Scene:", "").replace("Scène :", "").strip()
 
-    # Clean choices
     cleaned_choices = []
     for choice in choices:
         c = choice.strip()
-
-        # Remove leading numbers or punctuation
         c = re.sub(r"^(\d+\.\s*)", "", c)
 
-        # Convert question to statement if needed
         if c.lower().startswith("will "):
-            # Turn "Will Moona go explore the cave?" -> "Moona goes to explore the cave."
-            c = c[5:]  # Remove "Will "
+            c = c[5:]
             c = c.rstrip(" ?.")
-            # Add basic transformation (can be improved)
             if " or " in c:
                 options = [x.strip().capitalize() for x in c.split(" or ")]
                 for opt in options:
@@ -41,16 +34,28 @@ def review_scene_and_choices(scene: str, choices: list[str]) -> tuple[str, list[
     return scene, cleaned_choices
 
 
-def review_full_story(scenes: list[str]) -> str:
+def review_full_story(scenes: list[str], language: str) -> str:
     """
-    Reprend l’ensemble des scènes et propose une version fluide et cohérente.
+    Reprend l’ensemble des scènes et propose une version fluide et cohérente
+    dans la langue actuelle de l’utilisateur.
     """
     joined = "\n".join(scenes)
-    prompt = (
-        "You are a children's story editor. Here is a full story split into separate scenes:\n\n"
-        f"{joined}\n\n"
-        "Rewrite it as a smooth story suitable for a 6–10 year old. "
-        "Fix any repetition, verbosity, or awkward phrasing. Use warm, vivid language."
-    )
     llm = get_groq_llm()
+
+    if language == "fr":
+        prompt = (
+            "Tu es un éditeur d’histoires pour enfants.\n"
+            "Voici une histoire complète divisée en scènes :\n\n"
+            f"{joined}\n\n"
+            "Réécris cette histoire en français, de façon fluide, chaleureuse et adaptée à un enfant de 6 à 10 ans. "
+            "Corrige les répétitions, les formulations maladroites, et harmonise le style."
+        )
+    else:
+        prompt = (
+            "You are a children's story editor. Here is a full story split into separate scenes:\n\n"
+            f"{joined}\n\n"
+            "Rewrite it as a smooth story suitable for a 6–10 year old. "
+            "Fix any repetition, verbosity, or awkward phrasing. Use warm, vivid language."
+        )
+
     return llm.invoke(prompt).content.strip()

@@ -17,6 +17,7 @@ L'objectif de cette application est de stimuler l’imaginaire des enfants en le
 * Génération de texte par un modèle de langage
 * Visualisation des histoires dans une interface utilisateur simple
 * Téléchargement des histoires en format PDF
+* Version bilingue (Français/English)
 
 ## Technologies utilisées
 
@@ -111,7 +112,6 @@ Un fichier `.env` est requis avec la variable suivante :
 
 * Ajout de thème
 * Possibilité de passer en mode saga (continuer une histoire avec les personnages et autres détails)
-* Version multilingue
 
 ## Statut
 

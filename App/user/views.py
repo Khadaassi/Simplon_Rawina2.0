@@ -1,16 +1,13 @@
-from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, FormView
 from django.contrib.auth.views import LoginView as AuthLoginView, LogoutView
 from django.urls import reverse_lazy
 from django.contrib.auth import login, update_session_auth_hash
 from django.contrib import messages
+from django.utils.translation import gettext as _
 from .forms import RegistrationForm
 
 
-# Create your views here.
 class HomeView(TemplateView):
     template_name = "user/home.html"
     success_url = reverse_lazy("user:login")
@@ -29,7 +26,6 @@ class RegisterView(FormView):
 
 class LoginView(AuthLoginView):
     template_name = "user/login.html"
-    # redirect_authenticated_user = True
 
     def get_success_url(self):
         return reverse_lazy("rawina:dashboard")
@@ -79,22 +75,20 @@ class ChangePasswordView(TemplateView):
         confirm_password = request.POST.get("confirm_password")
 
         if not user.check_password(current_password):
-            messages.error(request, "Current password is incorrect.")
+            messages.error(request, _("Current password is incorrect."))
             return redirect("user:change_password")
 
         if new_password != confirm_password:
-            messages.error(request, "New passwords do not match.")
+            messages.error(request, _("New passwords do not match."))
             return redirect("user:change_password")
 
         if len(new_password) < 8:
-            messages.error(request, "New password must be at least 8 characters.")
+            messages.error(request, _("New password must be at least 8 characters."))
             return redirect("user:change_password")
 
         user.set_password(new_password)
         user.save()
-        update_session_auth_hash(
-            request, user
-        )  # Important pour ne pas déconnecter l'utilisateur
+        update_session_auth_hash(request, user)
 
-        messages.success(request, "Your password has been changed successfully.")
+        messages.success(request, _("Your password has been changed successfully."))
         return redirect("user:account_settings")

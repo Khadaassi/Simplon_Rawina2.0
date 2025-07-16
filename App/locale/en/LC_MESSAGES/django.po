@@ -1,0 +1,690 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-15 16:16+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: App/rawina/admin.py:7
+msgid "Rawina Admin"
+msgstr ""
+
+#: App/rawina/admin.py:8
+msgid "Rawina Admin Portal"
+msgstr ""
+
+#: App/rawina/admin.py:9
+msgid "Welcome to the Rawina Admin Portal"
+msgstr ""
+
+#: App/rawina/forms.py:7
+msgid "Your Name"
+msgstr ""
+
+#: App/rawina/forms.py:8
+msgid "Main Character"
+msgstr ""
+
+#: App/rawina/forms.py:9 App/rawina/templates/rawina/create_story.html:39
+msgid "Story Place"
+msgstr ""
+
+#: App/rawina/forms.py:16 App/rawina/models.py:9
+#: App/rawina/templates/rawina/choose_theme.html:27
+#: App/rawina/templates/rawina/interactive_choose_theme.html:29
+msgid "Fantasy"
+msgstr ""
+
+#: App/rawina/forms.py:17 App/rawina/models.py:8
+#: App/rawina/templates/rawina/choose_theme.html:38
+#: App/rawina/templates/rawina/interactive_choose_theme.html:40
+msgid "Animals"
+msgstr ""
+
+#: App/rawina/forms.py:18 App/rawina/models.py:10
+#: App/rawina/templates/rawina/choose_theme.html:49
+#: App/rawina/templates/rawina/interactive_choose_theme.html:51
+msgid "Daily Hero"
+msgstr ""
+
+#: App/rawina/forms.py:25
+#: App/rawina/templates/rawina/interactive_create_story.html:30
+msgid "Character Name"
+msgstr ""
+
+#: App/rawina/forms.py:27
+msgid "Character Type"
+msgstr ""
+
+#: App/rawina/forms.py:29
+msgid "e.g., a brave child, a clever fox..."
+msgstr ""
+
+#: App/rawina/forms.py:32
+msgid "Setting"
+msgstr ""
+
+#: App/rawina/forms.py:34
+msgid "e.g., an enchanted forest, a flying train..."
+msgstr ""
+
+#: App/rawina/forms.py:37 App/rawina/models.py:20
+msgid "Theme"
+msgstr ""
+
+#: App/rawina/forms.py:39
+msgid "e.g., adventure, friendship, courage..."
+msgstr ""
+
+#: App/rawina/models.py:17
+msgid "User"
+msgstr ""
+
+#: App/rawina/models.py:19
+msgid "Title"
+msgstr ""
+
+#: App/rawina/models.py:21
+msgid "Generated Text"
+msgstr ""
+
+#: App/rawina/models.py:21
+msgid "Automatically generated text"
+msgstr ""
+
+#: App/rawina/models.py:23
+msgid "Created At"
+msgstr ""
+
+#: App/rawina/templates/rawina/choose_theme.html:5
+#: App/rawina/templates/rawina/create_story.html:5
+msgid "Create Story - RAWINA"
+msgstr ""
+
+#: App/rawina/templates/rawina/choose_theme.html:14
+msgid "Choose Your Adventure Theme"
+msgstr ""
+
+#: App/rawina/templates/rawina/choose_theme.html:28
+#: App/rawina/templates/rawina/interactive_choose_theme.html:30
+msgid "Magic, castles, dragons..."
+msgstr ""
+
+#: App/rawina/templates/rawina/choose_theme.html:39
+#: App/rawina/templates/rawina/interactive_choose_theme.html:41
+msgid "Tales with furry friends."
+msgstr ""
+
+#: App/rawina/templates/rawina/choose_theme.html:50
+#: App/rawina/templates/rawina/interactive_choose_theme.html:52
+msgid "Courage in everyday life."
+msgstr ""
+
+#: App/rawina/templates/rawina/choose_theme.html:58
+#: App/rawina/templates/rawina/create_story.html:44
+#: App/rawina/templates/rawina/dashboard.html:20
+msgid "Create Story"
+msgstr ""
+
+#: App/rawina/templates/rawina/choose_theme.html:65
+#: App/rawina/templates/rawina/create_story.html:51
+#: App/rawina/templates/rawina/interactive_choose_theme.html:67
+#: App/rawina/templates/rawina/interactive_narrator.html:63
+#: App/rawina/templates/rawina/narrator_end.html:46
+#: App/rawina/templates/rawina/story_detail.html:28
+#: App/rawina/templates/rawina/story_list.html:57
+msgid "Back to Dashboard"
+msgstr ""
+
+#: App/rawina/templates/rawina/create_story.html:14
+msgid "Create a New Story"
+msgstr ""
+
+#: App/rawina/templates/rawina/create_story.html:20
+#: App/rawina/templates/rawina/interactive_create_story.html:21
+msgid "Selected Theme:"
+msgstr ""
+
+#: App/rawina/templates/rawina/create_story.html:29
+msgid "Main Character's name"
+msgstr ""
+
+#: App/rawina/templates/rawina/create_story.html:30
+#: App/rawina/templates/rawina/interactive_create_story.html:31
+msgid "e.g. Lina"
+msgstr ""
+
+#: App/rawina/templates/rawina/create_story.html:34
+msgid "Main Character Description"
+msgstr ""
+
+#: App/rawina/templates/rawina/create_story.html:35
+#: App/rawina/templates/rawina/interactive_create_story.html:36
+msgid "e.g. a brave cat"
+msgstr ""
+
+#: App/rawina/templates/rawina/create_story.html:40
+msgid "e.g. in the enchanted forest"
+msgstr ""
+
+#: App/rawina/templates/rawina/dashboard.html:5
+msgid "Dashboard - RAWINA"
+msgstr ""
+
+#: App/rawina/templates/rawina/dashboard.html:16
+msgid "Tools"
+msgstr ""
+
+#: App/rawina/templates/rawina/dashboard.html:25
+msgid "Interactive Story"
+msgstr ""
+
+#: App/rawina/templates/rawina/dashboard.html:30
+msgid "All Stories"
+msgstr ""
+
+#: App/rawina/templates/rawina/dashboard.html:35
+msgid "Account Settings"
+msgstr ""
+
+#: App/rawina/templates/rawina/dashboard.html:45
+#, python-format
+msgid "Welcome to Your Dashboard, %(user.username)s!"
+msgstr ""
+
+#: App/rawina/templates/rawina/dashboard.html:49
+msgid "Here you can manage your stories and account settings."
+msgstr ""
+
+#: App/rawina/templates/rawina/dashboard.html:57
+msgid "Start an Interactive Story Adventure"
+msgstr ""
+
+#: App/rawina/templates/rawina/dashboard.html:63
+#: App/rawina/templates/rawina/story_list.html:14
+msgid "Your Stories"
+msgstr ""
+
+#: App/rawina/templates/rawina/dashboard.html:77
+msgid "You have no stories yet."
+msgstr ""
+
+#: App/rawina/templates/rawina/dashboard.html:79
+msgid "Start writing"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_choose_theme.html:5
+msgid "Interactive Story Theme - RAWINA"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_choose_theme.html:16
+msgid "Choose Your Interactive Story Theme"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_choose_theme.html:60
+msgid "Next Step"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_create_story.html:5
+msgid "Interactive Story Setup - RAWINA"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_create_story.html:15
+msgid "Start Your Interactive Story"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_create_story.html:35
+msgid "Character Description"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_create_story.html:40
+msgid "Story Setting"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_create_story.html:41
+msgid "e.g. a floating castle"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_create_story.html:47
+msgid "Launch Story"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_create_story.html:53
+msgid "Back to Theme Selection"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_narrator.html:5
+msgid "Interactive Story - RAWINA"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_narrator.html:16
+msgid "Your Interactive Adventure"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_narrator.html:19
+msgid "The story has ended! Thank you for playing."
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_narrator.html:22
+msgid "Full Story:"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_narrator.html:33
+msgid "Start New Story"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_narrator.html:39
+msgid "Chapter"
+msgstr ""
+
+#: App/rawina/templates/rawina/interactive_narrator.html:45
+msgid "What do you want to do next?"
+msgstr ""
+
+#: App/rawina/templates/rawina/loading_story.html:5
+msgid "Generating Story..."
+msgstr ""
+
+#: App/rawina/templates/rawina/loading_story.html:10
+msgid "Loading Owl"
+msgstr ""
+
+#: App/rawina/templates/rawina/loading_story.html:13
+msgid "Rawi is creating your story..."
+msgstr ""
+
+#: App/rawina/templates/rawina/loading_story.html:17
+msgid ""
+"He's gathering sparkles, ideas, and imagination to create something magical "
+"for you. Please wait a few seconds while the tale comes to life."
+msgstr ""
+
+#: App/rawina/templates/rawina/loading_story.html:27
+msgid "Your adventure is almost ready..."
+msgstr ""
+
+#: App/rawina/templates/rawina/narrator_end.html:5
+msgid "The End - RAWINA"
+msgstr ""
+
+#: App/rawina/templates/rawina/narrator_end.html:18
+msgid "The End of Your Adventure"
+msgstr ""
+
+#: App/rawina/templates/rawina/narrator_end.html:22
+msgid "Thank you for exploring this interactive story!"
+msgstr ""
+
+#: App/rawina/templates/rawina/narrator_end.html:28
+msgid "Full Story"
+msgstr ""
+
+#: App/rawina/templates/rawina/narrator_end.html:39
+msgid "Start a New Story"
+msgstr ""
+
+#: App/rawina/templates/rawina/story_delete.html:5
+msgid "Delete Story - RAWINA"
+msgstr ""
+
+#: App/rawina/templates/rawina/story_delete.html:12
+#: App/rawina/templates/rawina/story_delete.html:29
+msgid "Delete Story"
+msgstr ""
+
+#: App/rawina/templates/rawina/story_delete.html:15
+#, python-format
+msgid ""
+"\n"
+"                Are you sure you want to delete the story "
+"\"<strong>%(title)s</strong>\"?\n"
+"            "
+msgstr ""
+
+#: App/rawina/templates/rawina/story_delete.html:21
+msgid ""
+"This action cannot be undone. All data associated with this story will be "
+"permanently removed."
+msgstr ""
+
+#: App/rawina/templates/rawina/story_delete.html:34
+msgid "Cancel"
+msgstr ""
+
+#: App/rawina/templates/rawina/story_detail.html:18
+#, python-format
+msgid ""
+"Theme: %(story.get_theme_display)s • Created on "
+"%(story.created_at|date:\"F j, Y\")s"
+msgstr ""
+
+#: App/rawina/templates/rawina/story_list.html:5
+msgid "Your Stories - RAWINA"
+msgstr ""
+
+#: App/rawina/templates/rawina/story_list.html:23
+#, python-format
+msgid "Created on %(story.created_at|date:\"F j, Y\")s"
+msgstr ""
+
+#: App/rawina/templates/rawina/story_list.html:26
+#, python-format
+msgid "Theme: %(story.theme|capfirst)s"
+msgstr ""
+
+#: App/rawina/templates/rawina/story_list.html:31
+msgid "Read more →"
+msgstr ""
+
+#: App/rawina/templates/rawina/story_list.html:34
+msgid "⬇ Download PDF"
+msgstr ""
+
+#: App/rawina/templates/rawina/story_list.html:39
+msgid "Delete"
+msgstr ""
+
+#: App/rawina/templates/rawina/story_list.html:48
+msgid "You haven't created any stories yet."
+msgstr ""
+
+#: App/rawina/templates/rawina/story_list.html:50
+msgid "Start here"
+msgstr ""
+
+#: App/rawina/templates/rawina/story_pdf.html:15
+msgid "Theme:"
+msgstr ""
+
+#: App/rawina/templates/rawina/story_pdf.html:16
+msgid "Date:"
+msgstr ""
+
+#: App/rawina/views.py:39 App/rawina/views.py:43 App/rawina/views.py:234
+msgid "Untitled Story"
+msgstr ""
+
+#: App/rawina/views.py:42
+msgid "⚠️ Story generation failed."
+msgstr ""
+
+#: App/rawina/views.py:127
+#, python-brace-format
+msgid "{name}'s Story"
+msgstr ""
+
+#: App/rawina/views.py:218
+msgid "Narrator session not found."
+msgstr ""
+
+#: App/theme/templates/theme/back_button.html:5
+msgid "Back"
+msgstr ""
+
+#: App/theme/templates/theme/base.html:14
+#: App/theme/templates/theme/base_login.html:12
+msgid "Your browser does not support the audio element."
+msgstr ""
+
+#: App/theme/templates/theme/base.html:24
+#: App/theme/templates/theme/base_dashboard.html:23
+#: App/theme/templates/theme/base_login.html:22
+msgid "RAWINA logo"
+msgstr ""
+
+#: App/theme/templates/theme/base.html:31 App/user/templates/user/login.html:40
+msgid "Login"
+msgstr ""
+
+#: App/theme/templates/theme/base.html:34 App/user/templates/user/home.html:27
+#: App/user/templates/user/login.html:46
+#: App/user/templates/user/register.html:46
+msgid "Sign Up"
+msgstr ""
+
+#: App/theme/templates/theme/base.html:50
+#: App/theme/templates/theme/base_dashboard.html:49
+#: App/theme/templates/theme/base_login.html:38
+msgid "Toggle sound"
+msgstr ""
+
+#: App/theme/templates/theme/base.html:62
+#: App/theme/templates/theme/base_dashboard.html:61
+#: App/theme/templates/theme/base_login.html:50
+msgid "Crafted with imagination."
+msgstr ""
+
+#: App/theme/templates/theme/base.html:63
+#: App/theme/templates/theme/base_dashboard.html:62
+#: App/theme/templates/theme/base_login.html:51
+msgid "All rights reserved."
+msgstr ""
+
+#: App/theme/templates/theme/base.html:87
+#: App/theme/templates/theme/base_dashboard.html:100
+#: App/theme/templates/theme/base_login.html:75
+msgid "The browser blocked autoplay. Please check your settings."
+msgstr ""
+
+#: App/theme/templates/theme/base_dashboard.html:14
+msgid "Audio not supported"
+msgstr ""
+
+#: App/theme/templates/theme/base_dashboard.html:32
+msgid "Logout"
+msgstr ""
+
+#: App/user/forms.py:9 App/user/templates/user/edit_profile.html:22
+#: App/user/templates/user/login.html:30
+msgid "Username"
+msgstr ""
+
+#: App/user/forms.py:13
+msgid "Enter your username"
+msgstr ""
+
+#: App/user/forms.py:18 App/user/templates/user/edit_profile.html:33
+msgid "Email"
+msgstr ""
+
+#: App/user/forms.py:22
+msgid "Enter your email address"
+msgstr ""
+
+#: App/user/forms.py:27 App/user/templates/user/login.html:35
+msgid "Password"
+msgstr ""
+
+#: App/user/forms.py:32
+msgid "Enter your password"
+msgstr ""
+
+#: App/user/forms.py:39
+msgid "Confirm Password"
+msgstr ""
+
+#: App/user/forms.py:43
+msgid "Confirm your password"
+msgstr ""
+
+#: App/user/templates/user/account.html:5
+msgid "Account Settings - RAWINA"
+msgstr ""
+
+#: App/user/templates/user/account.html:14
+msgid "Settings"
+msgstr ""
+
+#: App/user/templates/user/account.html:18
+msgid "Dashboard"
+msgstr ""
+
+#: App/user/templates/user/account.html:23
+#: App/user/templates/user/edit_profile.html:16
+msgid "Edit Profile"
+msgstr ""
+
+#: App/user/templates/user/account.html:28
+#: App/user/templates/user/change_password.html:13
+msgid "Change Password"
+msgstr ""
+
+#: App/user/templates/user/account.html:35
+msgid "Welcome to Your Account"
+msgstr ""
+
+#: App/user/templates/user/account.html:36
+msgid "Manage your account settings and preferences."
+msgstr ""
+
+#: App/user/templates/user/account.html:39
+msgid "Account Information"
+msgstr ""
+
+#: App/user/templates/user/account.html:40
+msgid "Username:"
+msgstr ""
+
+#: App/user/templates/user/account.html:41
+msgid "Email:"
+msgstr ""
+
+#: App/user/templates/user/change_password.html:5
+msgid "Change Password - RAWINA"
+msgstr ""
+
+#: App/user/templates/user/change_password.html:19
+msgid "Current Password"
+msgstr ""
+
+#: App/user/templates/user/change_password.html:22
+msgid "Enter current password"
+msgstr ""
+
+#: App/user/templates/user/change_password.html:26
+msgid "New Password"
+msgstr ""
+
+#: App/user/templates/user/change_password.html:29
+msgid "Enter new password"
+msgstr ""
+
+#: App/user/templates/user/change_password.html:33
+msgid "Confirm New Password"
+msgstr ""
+
+#: App/user/templates/user/change_password.html:36
+msgid "Confirm new password"
+msgstr ""
+
+#: App/user/templates/user/change_password.html:41
+msgid "Update Password"
+msgstr ""
+
+#: App/user/templates/user/change_password.html:47
+#: App/user/templates/user/edit_profile.html:56
+msgid "Back to Account Settings"
+msgstr ""
+
+#: App/user/templates/user/edit_profile.html:5
+msgid "Edit Profile - RAWINA"
+msgstr ""
+
+#: App/user/templates/user/edit_profile.html:47
+msgid "Save Changes"
+msgstr ""
+
+#: App/user/templates/user/home.html:5
+msgid "Welcome to Rawina"
+msgstr ""
+
+#: App/user/templates/user/home.html:18
+msgid "Welcome to"
+msgstr ""
+
+#: App/user/templates/user/home.html:22
+msgid ""
+"A storybook maker for little dreamers — where imagination meets storytelling."
+msgstr ""
+
+#: App/user/templates/user/home.html:35
+msgid "How It Works"
+msgstr ""
+
+#: App/user/templates/user/home.html:41
+msgid "Choose a Theme"
+msgstr ""
+
+#: App/user/templates/user/home.html:42
+msgid ""
+"Fantasy, animals, or daily heroes — pick your favorite world to explore."
+msgstr ""
+
+#: App/user/templates/user/home.html:47
+msgid "Add some details"
+msgstr ""
+
+#: App/user/templates/user/home.html:48
+msgid "Rawina will ask a few questions to get your imagination flowing."
+msgstr ""
+
+#: App/user/templates/user/home.html:53
+msgid "Get Your Story"
+msgstr ""
+
+#: App/user/templates/user/home.html:54
+msgid "Your story is generated — ready to read, listen to, or download!"
+msgstr ""
+
+#: App/user/templates/user/login.html:10
+msgid "Login - RAWINA"
+msgstr ""
+
+#: App/user/templates/user/login.html:23
+msgid "Login to your Account"
+msgstr ""
+
+#: App/user/templates/user/login.html:45
+msgid "Don't have an account yet?"
+msgstr ""
+
+#: App/user/templates/user/register.html:24
+msgid "Create Your RAWINA Account"
+msgstr ""
+
+#: App/user/templates/user/register.html:51
+msgid "Already have an account?"
+msgstr ""
+
+#: App/user/templates/user/register.html:53
+msgid "Log In"
+msgstr ""
+
+#: App/user/views.py:78
+msgid "Current password is incorrect."
+msgstr ""
+
+#: App/user/views.py:82
+msgid "New passwords do not match."
+msgstr ""
+
+#: App/user/views.py:86
+msgid "New password must be at least 8 characters."
+msgstr ""
+
+#: App/user/views.py:93
+msgid "Your password has been changed successfully."
+msgstr ""

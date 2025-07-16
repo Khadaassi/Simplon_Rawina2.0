@@ -1,4 +1,3 @@
-from logging import config
 import threading
 import base64
 import pickle
@@ -7,6 +6,7 @@ from django.http import JsonResponse, HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _, get_language
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import FormView
@@ -22,32 +22,56 @@ from ia_engine.nodes.scenarist import improve_prompt
 from ia_engine.nodes.reviewer import review_story
 from ia_engine.nodes.narrator import InteractiveNarrator
 from ia_engine.nodes.title_agent import generate_title_from_scene, generate_title_from_story
-
-
-# from ia_engine.nodes.cleaner import review_scene_and_choices
+from ia_engine.nodes.translator import translate_story
 
 
 # === Static story generation ===
 def _generate_and_save(story_id, payload):
     enriched_prompt = payload.get("enriched_prompt", "")
+    lang = payload.get("language", "en")
     llm = get_llm()
 
     try:
-        raw_text = llm.invoke(
-            f"Here is a detailed prompt for a children's story:\n\n{enriched_prompt}\n\n"
-            "Write a coherent, magical story in English for a child aged 6 to 10. "
-            "Keep it between 10 and 15 sentences, with a warm and vivid tone."
-        ).content
-        story_text = review_story(raw_text)
-        title = generate_title_from_story(story_text)
+        if lang == "fr":
+            prompt = (
+                f"Voici un prompt détaillé pour une histoire pour enfants :\n\n{enriched_prompt}\n\n"
+                "Écris une histoire cohérente en français pour un enfant de 6 à 10 ans. "
+                "Entre 20 et 25 phrases, avec un ton chaleureux et imagé."
+            )
+            raw_text_fr = llm.invoke(prompt).content
+            reviewed_fr = review_story(raw_text_fr, language="fr")
+            translated_en = translate_story(reviewed_fr, language="en")
+            story_text_fr = reviewed_fr
+            story_text_en = translated_en
+        else:
+            prompt = (
+                f"Here is a detailed prompt for a children's story:\n\n{enriched_prompt}\n\n"
+                "Write a coherent story in English for a child aged 6 to 10. "
+                "Keep it between 20 and 25 sentences, with a warm and vivid tone."
+            )
+            raw_text_en = llm.invoke(prompt).content
+            reviewed_en = review_story(raw_text_en, language="en")
+            translated_fr = translate_story(reviewed_en, language="fr")
+            story_text_en = reviewed_en
+            story_text_fr = translated_fr
+        
+        title = generate_title_from_story(
+            story_text_fr if lang == "fr" else story_text_en, language=lang
+        ) or _("Untitled Story")
+
+
     except Exception as e:
         print("Generation error:", e)
-        story_text = "⚠️ Story generation failed."
+        story_text_en = _("⚠️ Story generation failed.")
+        story_text_fr = _("⚠️ La génération de l'histoire a échoué.")
+        title = _("Untitled Story")
 
     story = Story.objects.get(pk=story_id)
-    story.generated_text = story_text
+    story.generated_text_fr = story_text_fr
+    story.generated_text_en = story_text_en
     story.title = title
     story.save()
+
 
 # === Dashboard & story views ===
 class DashboardView(LoginRequiredMixin, TemplateView):
@@ -56,9 +80,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            ctx["stories"] = Story.objects.filter(user=self.request.user).order_by(
-                "-created_at"
-            )[:3]
+            ctx["stories"] = Story.objects.filter(user=self.request.user).order_by("-created_at")[:3]
         return ctx
 
 
@@ -75,12 +97,9 @@ class StoryListView(LoginRequiredMixin, ListView):
             story = get_object_or_404(Story, id=request.GET["id"], user=request.user)
             html = render_to_string("rawina/story_pdf.html", {"story": story})
             response = HttpResponse(content_type="application/pdf")
-            response["Content-Disposition"] = (
-                f'attachment; filename="{story.title}.pdf"'
-            )
+            response["Content-Disposition"] = f'attachment; filename="{story.title}.pdf"'
             pisa.CreatePDF(html, dest=response)
             return response
-
         return super().get(request, *args, **kwargs)
 
 
@@ -120,22 +139,23 @@ class StoryCreateView(LoginRequiredMixin, FormView):
             "place": form.cleaned_data["place"],
             "theme": form.cleaned_data["theme"],
         }
-
-        enriched_prompt = improve_prompt(user_input)
+        lang = get_language()
+        enriched_prompt = improve_prompt(user_input, language=lang)
 
         payload = {
             "user_id": str(self.request.user.id),
             "theme": form.cleaned_data["theme"],
             "enriched_prompt": enriched_prompt,
+            "language": lang,
         }
 
         story = Story.objects.create(
             user=self.request.user,
-            title=f"{form.cleaned_data['name'].capitalize()}'s Story",
+            title=_("{name}'s Story").format(name=form.cleaned_data['name'].capitalize()),
             theme=form.cleaned_data["theme"],
-            generated_text="",  # À mettre à jour plus tard si besoin
+            generated_text_en="",
+            generated_text_fr="",
         )
-
 
         threading.Thread(
             target=_generate_and_save, args=(story.pk, payload), daemon=True
@@ -155,7 +175,7 @@ class StoryStatusView(LoginRequiredMixin, View):
         story = get_object_or_404(Story, pk=pk, user=request.user)
         return JsonResponse(
             {
-                "ready": bool(story.generated_text),
+                "ready": bool(story.generated_text_en and story.generated_text_fr),
                 "url": reverse("rawina:story", kwargs={"pk": story.pk}),
             }
         )
@@ -182,7 +202,8 @@ class NarratorSetupView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         config = form.cleaned_data
-        narrator = InteractiveNarrator()
+        lang = get_language()
+        narrator = InteractiveNarrator(language=lang)
         narrator.start_story(config)
 
         raw_bytes = pickle.dumps(narrator)
@@ -197,21 +218,15 @@ class InteractiveNarratorView(LoginRequiredMixin, View):
 
     def get(self, request):
         if request.GET.get("restart") == "1":
-            if "narrator" in request.session:
-                del request.session["narrator"]
+            request.session.pop("narrator", None)
             return redirect("rawina:narration_setup")
 
         encoded = request.session.get("narrator")
         if not encoded:
             return redirect("rawina:narration_setup")
 
-        raw_bytes = base64.b64decode(encoded)
-        narrator = pickle.loads(raw_bytes)
-
-        # Last scene and choices
-        last = (
-            narrator.history[-1] if narrator.history else {"scene": "", "choices": []}
-        )
+        narrator = pickle.loads(base64.b64decode(encoded))
+        last = narrator.history[-1] if narrator.history else {"scene": "", "choices": []}
 
         return render(
             request,
@@ -227,49 +242,45 @@ class InteractiveNarratorView(LoginRequiredMixin, View):
     def post(self, request):
         encoded = request.session.get("narrator")
         if not encoded:
-            raise Http404("Narrator session not found.")
+            raise Http404(_("Narrator session not found."))
 
-        raw_bytes = base64.b64decode(encoded)
-        narrator = pickle.loads(raw_bytes)
-
+        narrator = pickle.loads(base64.b64decode(encoded))
         user_choice = request.POST.get("choice")
         next_step = narrator.next_scene(user_choice)
 
-        # Save
-        request.session["narrator"] = base64.b64encode(pickle.dumps(narrator)).decode(
-            "utf-8"
-        )
+        request.session["narrator"] = base64.b64encode(pickle.dumps(narrator)).decode("utf-8")
+
         if narrator.is_finished():
-            final_story = narrator.final_story()
-            # Retrieve config from session or narrator if possible
+            full_story = narrator.final_story()
+            if narrator.language == "fr":
+                story_text_fr = full_story
+                story_text_en = translate_story(full_story, language="en")
+            else:
+                story_text_en = full_story
+                story_text_fr = translate_story(full_story, language="fr")
             config = getattr(narrator, "config", {})
             theme = config.get("theme", "")
-
             scene = narrator.history[0]["scene"]
-            title = generate_title_from_scene(scene)
+            title = generate_title_from_scene(scene, language=narrator.language) or _("Untitled Story")
 
             Story.objects.create(
                 user=self.request.user,
                 title=title,
-                theme= theme,
-                generated_text="",
+                theme=theme,
+                generated_text_en=story_text_en,
+                generated_text_fr=story_text_fr,
             )
 
-
-        return render(request, self.template_name, {
-            "scene": next_step["scene"],
-            "choices": next_step["choices"],
-            "finished": narrator.is_finished(),
-            "history": narrator.history if narrator.is_finished() else None,
-        })
-
-    def save_narrator(self, narrator):
-        """
-        Save the narrator state to the session.
-        """
-        raw_bytes = pickle.dumps(narrator)
-        encoded = base64.b64encode(raw_bytes).decode("utf-8")
-        self.request.session["narrator"] = encoded
+        return render(
+            request,
+            self.template_name,
+            {
+                "scene": next_step["scene"],
+                "choices": next_step["choices"],
+                "finished": narrator.is_finished(),
+                "history": narrator.history if narrator.is_finished() else None,
+            },
+        )
 
 
 class InteractiveChooseThemeView(LoginRequiredMixin, FormView):
