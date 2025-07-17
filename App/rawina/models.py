@@ -16,7 +16,8 @@ class Story(models.Model):
         related_name="stories",
         verbose_name=_("User")
     )
-    title = models.CharField(_("Title"), max_length=100)
+    title_fr = models.CharField(_("Title"), max_length=100, null=True, blank=True)
+    title_en = models.CharField(_("Title (English)"), max_length=100, null=True, blank=True)
     theme = models.CharField(_("Theme"), max_length=20, choices=THEME_CHOICES)
     generated_text_en = models.TextField(_("Generated Text (English)"), help_text=_("Automatically generated text"), null=True, blank=True)
     generated_text_fr = models.TextField(_("Generated Text (French)"), help_text=_("Automatically generated text"), null=True, blank=True)

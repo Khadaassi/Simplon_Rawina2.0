@@ -11,5 +11,5 @@ def get_llm():
 
 
 def get_groq_llm():
-    llm = ChatGroq(api_key=os.getenv("GROQ_API_KEY"), model="llama-3.3-70b-versatile")
+    llm = ChatGroq(api_key=os.getenv("GROQ_API_KEY"), model="meta-llama/llama-4-maverick-17b-128e-instruct")
     return llm
