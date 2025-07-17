@@ -37,6 +37,7 @@ class InteractiveNarrator:
                 "Les deux choix doivent être orientés vers l’action et adaptés à un enfant.\n"
                 "Utilise ce format :\n"
                 "Chapitre :\n...\n\nChoix :\n1. ...\n2. ..."
+                "Règles: pas de commentaires, pas de titre d'histoire, uniquement l'histoire."
             )
         else:
             prompt = (
@@ -50,6 +51,7 @@ class InteractiveNarrator:
                 "Both choices should be action-oriented and suitable for a child.\n"
                 "Use this format:\n"
                 "Chapter:\n...\n\nChoices:\n1. ...\n2. ..."
+                "Rules: no comments, no story title, just the story."
             )
 
         response = self.llm.invoke(prompt).content
@@ -70,6 +72,8 @@ class InteractiveNarrator:
                 f"Génère maintenant la scène suivante ({prompt_type}).\n\n"
                 "Utilise ce format :\n"
                 "Scène :\n...\n\nChoix :\n1. ...\n2. ..."
+                "Pas de ponctuation pour les choix."
+                "Règles: pas de commentaires, pas de titre, uniquement l'histoire. "
             )
         else:
             prompt = (
@@ -79,17 +83,19 @@ class InteractiveNarrator:
                 f"Now generate the {prompt_type} of the story.\n\n"
                 "Use this format:\n"
                 "Scene:\n...\n\nChoices:\n1. ...\n2. ..."
+                "no ponctuations for the choices."
+                "Rules: no comments, no titles, just the story."
             )
 
         response = self.llm.invoke(prompt).content
         scene, choices = self._parse_response(response)
-        scene_clean, choices_clean = review_scene_and_choices(scene, choices, language=self.language)
+        scene_clean, choices_clean = review_scene_and_choices(scene, choices)
 
         self.history.append({"scene": scene_clean, "choices": choices_clean})
         self.step += 1
 
         if self.step >= self.max_steps:
-            final_message = "La fin." if lang == "fr" else "The end."
+            final_message = "Fin." if lang == "fr" else "The end."
             self.history.append({"scene": final_message, "choices": []})
             return {"scene": final_message, "choices": []}
         return {"scene": scene_clean, "choices": choices_clean}

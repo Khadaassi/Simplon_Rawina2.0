@@ -26,3 +26,20 @@ def translate_story(text: str, language: str) -> str:
 
     return llm.invoke(prompt).content.strip()
 
+def translate_title(title, language: str) -> str:
+    """
+    Traduit le titre d'une histoire dans l'autre langue.
+    `language` = langue cible (fr ou en)
+    """
+    llm = get_groq_llm()
+
+    if language == "fr":
+        prompt = (f"Translate this title into French: {title}"
+        "Rules: no comments, only the title in French.")
+    elif language == "en":
+        prompt = (f"Traduire ce titre en anglais : {title}"
+        "Règles : pas de commentaires, uniquement le titre en anglais.")
+    else:
+        raise ValueError(f"Unsupported language: {language}")
+
+    return llm.invoke(prompt).content.strip()
