@@ -48,6 +48,7 @@ def review_full_story(scenes: list[str], language: str) -> str:
             "Voici une histoire complète divisée en scènes :\n\n"
             f"{joined}\n\n"
             "Réécris cette histoire en français, de façon fluide, chaleureuse et adaptée à un enfant de 6 à 10 ans. "
+            "Pas de titre, pas de commentaires, uniquement l'histoire. "
             "Corrige les répétitions, les formulations maladroites, et harmonise le style."
         )
     else:
@@ -55,6 +56,7 @@ def review_full_story(scenes: list[str], language: str) -> str:
             "You are a children's story editor. Here is a full story split into separate scenes:\n\n"
             f"{joined}\n\n"
             "Rewrite it as a smooth story suitable for a 6–10 year old. "
+            "No title, no comments, just the story. "
             "Fix any repetition, verbosity, or awkward phrasing. Use warm, vivid language."
         )
 

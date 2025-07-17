@@ -2,7 +2,13 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{{ story.title }} - RAWINA{% endblock %}
+{% block title %}        
+  {% if LANGUAGE_CODE == "fr" %}
+      <p>{{ story.title_fr|linebreaks }}- RAWINA</p>
+    {% else %}
+      <p>{{ story.title_en|linebreaks }}- RAWINA</p>
+  {% endif %}
+{% endblock %}
 
 {% block content %}
 <div 
@@ -13,7 +19,11 @@
     <div class="w-full max-w-4xl  border-4 border-sand-beige rounded-lg shadow-2xl p-8 bg-sage-green backdrop-blur-sm">
     
     <div class="text-center">
-      <h1 class="text-3xl font-bold text-deepviolet mb-2">{{ story.title }}</h1>
+      {% if LANGUAGE_CODE == "fr" %}
+          <h1 class="text-3xl font-bold text-deepviolet mb-2">{{ story.title_fr|linebreaks }}</h1>
+        {% else %}
+          <h1 class="text-3xl font-bold text-deepviolet mb-2">{{ story.title_en|linebreaks }}</h1>
+      {% endif %}
       <p class="text-sm text-gray-600 font-medium">
         {% blocktrans with theme=story.get_theme_display created=story.created_at|date:"F j, Y" %}
           Theme: {{ theme }} • Created on {{ created }}
