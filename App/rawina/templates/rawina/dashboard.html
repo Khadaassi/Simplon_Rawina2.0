@@ -16,22 +16,22 @@
     <h2 class="text-2xl font-bold text-sand-beige text-center">{% trans "Tools" %}</h2>
     <ul class="mt-4 space-y-2">
       <li>
-        <a href="{% url 'rawina:choose_theme' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+        <a href="{% url 'rawina:choose_theme' %}" class="block text-gray-600 hover:underline p-2 rounded-lg transition">
           {% trans "Create Story" %}
         </a>
       </li>
       <li>
-        <a href="{% url 'rawina:interactive_choose_theme' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+        <a href="{% url 'rawina:interactive_choose_theme' %}" class="block text-gray-600 hover:underline p-2 rounded-lg transition">
           {% trans "Interactive Story" %}
         </a>
       </li>
       <li>
-        <a href="{% url 'rawina:story_list' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+        <a href="{% url 'rawina:story_list' %}" class="block text-gray-600 hover:underline p-2 rounded-lg transition">
           {% trans "All Stories" %}
         </a>
       </li>
       <li>
-        <a href="{% url 'user:account_settings' %}" class="block text-gray-600 hover:bg-paleblue p-2 rounded-lg transition">
+        <a href="{% url 'user:account_settings' %}" class="block text-gray-600 hover:underline p-2 rounded-lg transition">
           {% trans "Account Settings" %}
         </a>
       </li>
@@ -42,7 +42,9 @@
     <div class="flex justify-center mb-4">
       <img src="{% static 'images/rawi3.png' %}" alt="RAWI" class="w-8 h-8" />
       <h2 class="text-2xl font-bold text-sand-beige text-center">
-        {% blocktrans %}Welcome to Your Dashboard, {{ user.username }}!{% endblocktrans %}
+        {% blocktrans with theme=story.get_theme_display username=user.username %}
+          Welcome to Your Dashboard, {{ username }}!
+        {% endblocktrans %}
       </h2>
     </div>
     <p class="text-gray-600 text-center">
@@ -52,7 +54,7 @@
     <div class="mt-6 text-center">
       <a
         href="{% url 'rawina:interactive_choose_theme' %}"
-        class="inline-block bg-deepviolet text-sand-beige font-semibold py-2 px-4 rounded-xl shadow hover:bg-sage-green transition duration-200"
+        class="inline-block bg-light-sienna text-sand-beige font-semibold py-2 px-4 rounded-xl shadow hover:bg-sage-green transition duration-200"
       >
         {% trans "Start an Interactive Story Adventure" %}
       </a>
@@ -66,7 +68,11 @@
         {% for story in stories %}
         <li>
           <a href="{% url 'rawina:story' story.id %}" class="text-deepviolet hover:underline">
-            {{ story.title }}
+            {% if LANGUAGE_CODE == "fr" %}
+              {{ story.title_fr }}
+            {% else %}
+              {{ story.title_en }}
+            {% endif %}
           </a>
           <span class="text-sm text-gray-500">
             — {{ story.created_at|date:"M j" }}
@@ -77,7 +83,7 @@
           {% trans "You have no stories yet." %}
           <a href="{% url 'rawina:choose_theme' %}" class="text-deepviolet hover:underline">
             {% trans "Start writing" %}
-          </a>.
+          </a>
         </li>
         {% endfor %}
       </ul>

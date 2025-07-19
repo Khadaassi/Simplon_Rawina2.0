@@ -11,6 +11,7 @@ from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils import translation
 
 from xhtml2pdf import pisa
 
@@ -21,8 +22,8 @@ from ia_engine.llm_loader import get_groq_llm as get_llm
 from ia_engine.nodes.scenarist import improve_prompt
 from ia_engine.nodes.reviewer import review_story
 from ia_engine.nodes.narrator import InteractiveNarrator
-from ia_engine.nodes.title_agent import generate_title_from_scene, generate_title_from_story
-from ia_engine.nodes.translator import translate_story
+from ia_engine.nodes.title_agent import generate_title_from_story, generate_title_from_scene
+from ia_engine.nodes.translator import translate_story, translate_title
 
 
 # === Static story generation ===
@@ -43,6 +44,8 @@ def _generate_and_save(story_id, payload):
             translated_en = translate_story(reviewed_fr, language="en")
             story_text_fr = reviewed_fr
             story_text_en = translated_en
+            title_fr = generate_title_from_story(story_text_fr, language=lang) or _("Histoire sans titre")
+            title_en = translate_title(title_fr, language="en") or _("Untitled Story")
         else:
             prompt = (
                 f"Here is a detailed prompt for a children's story:\n\n{enriched_prompt}\n\n"
@@ -54,22 +57,21 @@ def _generate_and_save(story_id, payload):
             translated_fr = translate_story(reviewed_en, language="fr")
             story_text_en = reviewed_en
             story_text_fr = translated_fr
-        
-        title = generate_title_from_story(
-            story_text_fr if lang == "fr" else story_text_en, language=lang
-        ) or _("Untitled Story")
-
+            title_en = generate_title_from_story(story_text_en, language=lang) or _("Untitled Story")
+            title_fr = translate_title(title_en, language="fr") or _("Histoire sans titre")
 
     except Exception as e:
         print("Generation error:", e)
         story_text_en = _("⚠️ Story generation failed.")
         story_text_fr = _("⚠️ La génération de l'histoire a échoué.")
-        title = _("Untitled Story")
+        title_fr = _("Histoire sans titre")
+        title_en = _("Untitled Story")
 
     story = Story.objects.get(pk=story_id)
     story.generated_text_fr = story_text_fr
     story.generated_text_en = story_text_en
-    story.title = title
+    story.title_fr = title_fr
+    story.title_en = title_en
     story.save()
 
 
@@ -95,11 +97,21 @@ class StoryListView(LoginRequiredMixin, ListView):
     def get(self, request, *args, **kwargs):
         if request.GET.get("pdf") and request.GET.get("id"):
             story = get_object_or_404(Story, id=request.GET["id"], user=request.user)
-            html = render_to_string("rawina/story_pdf.html", {"story": story})
+
+            lang = get_language()  # récupère la langue active du user
+
+            with translation.override(lang):
+                html = render_to_string(
+                    "rawina/story_pdf.html",
+                    {"story": story, "LANGUAGE_CODE": lang},  # assure la présence dans le template
+                    request=request,  # utile pour les balises comme {% trans %}
+                )
+
             response = HttpResponse(content_type="application/pdf")
-            response["Content-Disposition"] = f'attachment; filename="{story.title}.pdf"'
+            response["Content-Disposition"] = f'attachment; filename=\"{story.title_fr}.pdf\"' if lang == "fr" else f'attachment; filename=\"{story.title_en}.pdf\"'
             pisa.CreatePDF(html, dest=response)
             return response
+
         return super().get(request, *args, **kwargs)
 
 
@@ -141,6 +153,8 @@ class StoryCreateView(LoginRequiredMixin, FormView):
         }
         lang = get_language()
         enriched_prompt = improve_prompt(user_input, language=lang)
+        title_en = _("{name}'s Story").format(name=form.cleaned_data['name'].capitalize()),
+        title_fr = _("L'histoire de {name}").format(name=form.cleaned_data['name'].capitalize())
 
         payload = {
             "user_id": str(self.request.user.id),
@@ -151,7 +165,8 @@ class StoryCreateView(LoginRequiredMixin, FormView):
 
         story = Story.objects.create(
             user=self.request.user,
-            title=_("{name}'s Story").format(name=form.cleaned_data['name'].capitalize()),
+            title_en=title_en,
+            title_fr=title_fr,
             theme=form.cleaned_data["theme"],
             generated_text_en="",
             generated_text_fr="",
@@ -205,6 +220,7 @@ class NarratorSetupView(LoginRequiredMixin, FormView):
         lang = get_language()
         narrator = InteractiveNarrator(language=lang)
         narrator.start_story(config)
+        narrator.config = config
 
         raw_bytes = pickle.dumps(narrator)
         encoded = base64.b64encode(raw_bytes).decode("utf-8")
@@ -255,17 +271,21 @@ class InteractiveNarratorView(LoginRequiredMixin, View):
             if narrator.language == "fr":
                 story_text_fr = full_story
                 story_text_en = translate_story(full_story, language="en")
+                title_fr = generate_title_from_story(story_text_fr, language=narrator.language) or _("Histoire sans titre")
+                title_en = translate_title(title_fr, language="en") or _("Untitled Story")
             else:
                 story_text_en = full_story
                 story_text_fr = translate_story(full_story, language="fr")
+                title_en = generate_title_from_story(story_text_en, language=narrator.language) or _("Untitled Story")
+                title_fr = translate_title(title_en, language="fr") or _("Histoire sans titre")
             config = getattr(narrator, "config", {})
             theme = config.get("theme", "")
             scene = narrator.history[0]["scene"]
-            title = generate_title_from_scene(scene, language=narrator.language) or _("Untitled Story")
 
             Story.objects.create(
                 user=self.request.user,
-                title=title,
+                title_fr=title_fr,
+                title_en=title_en,
                 theme=theme,
                 generated_text_en=story_text_en,
                 generated_text_fr=story_text_fr,
