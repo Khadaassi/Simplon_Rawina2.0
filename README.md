@@ -1,9 +1,10 @@
-<h1 align="center">RAWINA 2.0</h1>
+# RAWINA 2.0
 
-<img src="App/theme/static/images/rawi.png" alt="Rawina" width="80%">
+<p align="center">
+  <img src="App/theme/static/images/rawi.png" alt="Rawina" width="80%">
+</p>
 
-<p style="padding: 20px; font-size: 16px">
-RAWINA est une application web Django permettant de générer automatiquement des histoires pour enfants (6–10 ans) à partir d’un prompt guidé. Le projet a été réalisé dans le cadre de la formation Simplon.</p>
+RAWINA est une application web Django permettant de générer automatiquement des histoires pour enfants (6–10 ans) à partir d’un prompt guidé. Le projet a été réalisé dans le cadre de la formation Simplon.
 
 ## Objectif
 
@@ -66,8 +67,8 @@ cd Simplon_Rawina2.0
 2. Créer un environnement virtuel :
 
 ```bash
-python -m venv venv
-source venv/bin/activate  # sous Linux/macOS
+python -m venv .venv
+source .venv/bin/activate  # sous Linux/macOS
 venv\Scripts\activate     # sous Windows
 ```
 
@@ -86,21 +87,24 @@ python manage.py runserver
 
 ## Utilisation avec Docker
 
-Assurez-vous d’avoir Docker installé puis construisez l’image :
+### Exécution du conteneur
 
 ```bash
-docker build -t rawina-app .
+# Tirer l’image multi-arch
+docker pull khadaassi9/rawina-app:latest
+# Lancer le conteneur
+docker run --rm -p 8000:8000 khadaassi9/rawina-app:latest
 ```
 
-Puis lancez le conteneur :
+Sur un Mac M1/M2/M3, la variante ARM64 sera automatiquement utilisée.
 
-```bash
-docker run -p 8000:8000 rawina-app
+### Variables d’environnement
+
+Créez un fichier `.env` à la racine contenant :
+
 ```
-
-Un fichier `.env` est requis avec la variable suivante :
-
-* GROQ\_API\_KEY (obligatoire pour générer du texte)
+GROQ_API_KEY=votre_cle_api_groq
+```
 
 ## Dépendances externes
 
@@ -110,12 +114,13 @@ Un fichier `.env` est requis avec la variable suivante :
 
 ## À venir (prochaines étapes)
 
-* Ajout de thème
-* Possibilité de passer en mode saga (continuer une histoire avec les personnages et autres détails)
+* Ajout de nouveaux thèmes
+* Mode saga (continuer une histoire)
 
 ## Statut
 
 Projet en développement. Version stable partielle disponible (génération de texte + affichage + export PDF).
+
 
 ## Auteur
 
