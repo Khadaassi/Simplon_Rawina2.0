@@ -21,9 +21,11 @@ from django.urls import include, reverse_lazy
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import HttpResponse
 
 
 urlpatterns = [
+    path("test/", lambda request: HttpResponse("✅ OK Rawina")),
     path('admin/', admin.site.urls),
     path('', include('user.urls', namespace='user')),
     path('rawina/', include('rawina.urls', namespace='rawina')),

@@ -9,12 +9,11 @@
   class="min-h-screen bg-sand-beige flex items-center justify-center px-6 py-16 shadow-lg border-y-4 border-sage-green bg-cover bg-center"
   style="background-image: url('{% static 'images/forest_bg.png' %}')"> 
 
-  <div class="absolute inset-0 bg-black/40"></div>
     <div class="w-full max-w-4xl border-4 border-sage-green rounded-lg shadow-2xl p-8 bg-sage-green backdrop-blur-sm">
         <h2 class="text-3xl font-bold text-sand-beige mb-8 text-center">{% trans "Your Stories" %}</h2>
         
         {% if stories %}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
                 {% for story in stories %}
                     <div class="bg-sand-beige rounded-xl shadow-md border border-deepviolet p-6 flex flex-col justify-between">
                         <div>
