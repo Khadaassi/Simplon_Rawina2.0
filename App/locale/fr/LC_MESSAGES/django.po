@@ -224,7 +224,7 @@ msgid ""
 "\n"
 "          Welcome to Your Dashboard, %(username)s!\n"
 "        "
-msgstr "Bienvenue sur ton tableau de bord, (username)!"
+msgstr "Bienvenue sur ton tableau de bord, %(username)!"
 
 #: App/rawina/templates/rawina/dashboard.html:50
 msgid "Here you can manage your stories and account settings."
