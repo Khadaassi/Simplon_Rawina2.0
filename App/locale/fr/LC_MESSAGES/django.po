@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RAWINA 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-23 00:41+0200\n"
+"POT-Creation-Date: 2025-07-23 00:58+0200\n"
 "PO-Revision-Date: 2025-07-15 15:00+0200\n"
 "Last-Translator: Khadija <khadija@example.com>\n"
 "Language-Team: French\n"
@@ -159,7 +159,7 @@ msgstr "Créer une Histoire"
 #: App/rawina/templates/rawina/interactive_narrator.html:66
 #: App/rawina/templates/rawina/narrator_end.html:45
 #: App/rawina/templates/rawina/story_detail.html:47
-#: App/rawina/templates/rawina/story_list.html:64
+#: App/rawina/templates/rawina/story_list.html:62
 msgid "Back to Dashboard"
 msgstr "Retour au Tableau de Bord"
 
@@ -320,23 +320,23 @@ msgstr "Chapitre"
 msgid "What do you want to do next?"
 msgstr "Que veux-tu faire ensuite ?"
 
-#: App/rawina/templates/rawina/interactive_narrator.html:80
+#: App/rawina/templates/rawina/interactive_narrator.html:83
 msgid "Leave the story?"
 msgstr "Quitter l'Histoire?"
 
-#: App/rawina/templates/rawina/interactive_narrator.html:83
+#: App/rawina/templates/rawina/interactive_narrator.html:86
 msgid "If you leave now, your interactive story will be lost."
 msgstr "Si vous quittez maintenant, l’histoire sera perdue."
 
-#: App/rawina/templates/rawina/interactive_narrator.html:84
+#: App/rawina/templates/rawina/interactive_narrator.html:87
 msgid "But don’t worry — just 5 choices are enough to reach an ending!"
 msgstr "Mais un peu de patience : 5 choix suffisent pour découvrir une fin !"
 
-#: App/rawina/templates/rawina/interactive_narrator.html:89
+#: App/rawina/templates/rawina/interactive_narrator.html:92
 msgid "Continue story"
 msgstr "Continuer l'histoire"
 
-#: App/rawina/templates/rawina/interactive_narrator.html:93
+#: App/rawina/templates/rawina/interactive_narrator.html:96
 msgid "Quit anyway"
 msgstr "Quitter"
 
@@ -391,6 +391,7 @@ msgstr "Supprimer l’histoire - RAWINA"
 
 #: App/rawina/templates/rawina/story_delete.html:12
 #: App/rawina/templates/rawina/story_delete.html:29
+#: App/rawina/templates/rawina/story_list.html:74
 msgid "Delete Story"
 msgstr "Supprimer l’histoire"
 
@@ -416,12 +417,17 @@ msgstr ""
 "seront supprimées définitivement."
 
 #: App/rawina/templates/rawina/story_delete.html:34
+#: App/rawina/templates/rawina/story_list.html:81
 msgid "Cancel"
 msgstr "Annuler"
 
 #: App/rawina/templates/rawina/story_detail.html:27
-#, python-format
-msgid "Theme: %(theme)s • Created on %(created)s\n"
+#, fuzzy, python-format
+#| msgid "Theme: %(theme)s • Created on %(created)s\n"
+msgid ""
+"\n"
+"          Theme: %(theme)s • Created on %(created)s\n"
+"          "
 msgstr "Thème : %(theme)s • Créée le %(created)s\n"
 
 #: App/rawina/templates/rawina/story_list.html:5
@@ -432,16 +438,16 @@ msgstr "Tes histoires - RAWINA"
 #, python-format
 msgid ""
 "\n"
-"                        Created on %(created)s\n"
-"                        "
+"                            Created on %(created)s\n"
+"                            "
 msgstr ""
 
 #: App/rawina/templates/rawina/story_list.html:31
 #, python-format
 msgid ""
 "\n"
-"                        Theme: %(theme)s\n"
-"                        "
+"                            Theme: %(theme)s\n"
+"                            "
 msgstr ""
 
 #: App/rawina/templates/rawina/story_list.html:38
@@ -452,17 +458,22 @@ msgstr "Lire la suite →"
 msgid "⬇ Download PDF"
 msgstr "⬇ Télécharger le PDF"
 
-#: App/rawina/templates/rawina/story_list.html:46
+#: App/rawina/templates/rawina/story_list.html:45
+#: App/rawina/templates/rawina/story_list.html:85
 msgid "Delete"
 msgstr "Supprimer"
 
-#: App/rawina/templates/rawina/story_list.html:55
+#: App/rawina/templates/rawina/story_list.html:53
 msgid "You haven't created any stories yet."
 msgstr "Tu n’as pas encore créé d’histoires."
 
-#: App/rawina/templates/rawina/story_list.html:57
+#: App/rawina/templates/rawina/story_list.html:55
 msgid "Start here"
 msgstr "Commence ici"
+
+#: App/rawina/templates/rawina/story_list.html:75
+msgid "Are you sure you want to delete this story?"
+msgstr "Es-tu sûr(e) de vouloir supprimer cette histoire?"
 
 #: App/rawina/templates/rawina/story_pdf.html:69
 msgid "Theme:"
