@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RAWINA 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-20 12:15+0200\n"
+"POT-Creation-Date: 2025-07-23 00:41+0200\n"
 "PO-Revision-Date: 2025-07-15 15:00+0200\n"
 "Last-Translator: Khadija <khadija@example.com>\n"
 "Language-Team: French\n"
@@ -139,12 +139,12 @@ msgstr "Magie, châteaux, dragons..."
 #: App/rawina/templates/rawina/choose_theme.html:39
 #: App/rawina/templates/rawina/interactive_choose_theme.html:40
 msgid "Tales with furry friends."
-msgstr "Contes avec des amis à poils."
+msgstr "Contes avec nos amis tout doux"
 
 #: App/rawina/templates/rawina/choose_theme.html:50
 #: App/rawina/templates/rawina/interactive_choose_theme.html:51
 msgid "Courage in everyday life."
-msgstr "Courage dans la vie quotidienne."
+msgstr "Héros d'un jour, Héros toujours!"
 
 #: App/rawina/templates/rawina/choose_theme.html:58
 #: App/rawina/templates/rawina/create_story.html:43
@@ -155,7 +155,8 @@ msgstr "Créer une Histoire"
 #: App/rawina/templates/rawina/choose_theme.html:65
 #: App/rawina/templates/rawina/create_story.html:50
 #: App/rawina/templates/rawina/interactive_choose_theme.html:66
-#: App/rawina/templates/rawina/interactive_narrator.html:63
+#: App/rawina/templates/rawina/interactive_narrator.html:62
+#: App/rawina/templates/rawina/interactive_narrator.html:66
 #: App/rawina/templates/rawina/narrator_end.html:45
 #: App/rawina/templates/rawina/story_detail.html:47
 #: App/rawina/templates/rawina/story_list.html:64
@@ -219,10 +220,14 @@ msgid "Account Settings"
 msgstr "Paramètres du Compte"
 
 #: App/rawina/templates/rawina/dashboard.html:44
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "          Welcome, %(username)s!\n"
+#| "        "
 msgid ""
 "\n"
-"          Welcome to Your Dashboard, %(username)s!\n"
+"          Welcome, %(username)s!\n"
 "        "
 msgstr "Bienvenue sur ton tableau de bord, %(username)!"
 
@@ -230,20 +235,24 @@ msgstr "Bienvenue sur ton tableau de bord, %(username)!"
 msgid "Here you can manage your stories and account settings."
 msgstr "Ici, tu peux gérer tes histoires et les paramètres de ton compte."
 
-#: App/rawina/templates/rawina/dashboard.html:58
+#: App/rawina/templates/rawina/dashboard.html:57
+msgid "Create a new Story"
+msgstr "Créer une Nouvelle Histoire"
+
+#: App/rawina/templates/rawina/dashboard.html:65
 msgid "Start an Interactive Story Adventure"
 msgstr "Commencer une Aventure Interactive"
 
-#: App/rawina/templates/rawina/dashboard.html:64
+#: App/rawina/templates/rawina/dashboard.html:70
 #: App/rawina/templates/rawina/story_list.html:13
 msgid "Your Stories"
 msgstr "Tes histoires"
 
-#: App/rawina/templates/rawina/dashboard.html:82
+#: App/rawina/templates/rawina/dashboard.html:88
 msgid "You have no stories yet."
 msgstr "Tu n’as pas encore créé d’histoires."
 
-#: App/rawina/templates/rawina/dashboard.html:84
+#: App/rawina/templates/rawina/dashboard.html:90
 msgid "Start writing"
 msgstr "Commencer à écrire"
 
@@ -287,29 +296,49 @@ msgstr "Retour à la sélection du thème"
 msgid "Interactive Story - RAWINA"
 msgstr "Histoire Interactive - RAWINA"
 
-#: App/rawina/templates/rawina/interactive_narrator.html:15
+#: App/rawina/templates/rawina/interactive_narrator.html:14
 msgid "Your Interactive Adventure"
 msgstr "Ton aventure interactive"
 
-#: App/rawina/templates/rawina/interactive_narrator.html:18
+#: App/rawina/templates/rawina/interactive_narrator.html:17
 msgid "The story has ended! Thank you for playing."
 msgstr "L’histoire est terminée ! Merci d’avoir joué."
 
-#: App/rawina/templates/rawina/interactive_narrator.html:21
+#: App/rawina/templates/rawina/interactive_narrator.html:20
 msgid "Full Story:"
 msgstr "Histoire Complète :"
 
-#: App/rawina/templates/rawina/interactive_narrator.html:32
+#: App/rawina/templates/rawina/interactive_narrator.html:31
 msgid "Start New Story"
 msgstr "Commencer une nouvelle histoire"
 
-#: App/rawina/templates/rawina/interactive_narrator.html:38
+#: App/rawina/templates/rawina/interactive_narrator.html:37
 msgid "Chapter"
 msgstr "Chapitre"
 
-#: App/rawina/templates/rawina/interactive_narrator.html:44
+#: App/rawina/templates/rawina/interactive_narrator.html:43
 msgid "What do you want to do next?"
 msgstr "Que veux-tu faire ensuite ?"
+
+#: App/rawina/templates/rawina/interactive_narrator.html:80
+msgid "Leave the story?"
+msgstr "Quitter l'Histoire?"
+
+#: App/rawina/templates/rawina/interactive_narrator.html:83
+msgid "If you leave now, your interactive story will be lost."
+msgstr "Si vous quittez maintenant, l’histoire sera perdue."
+
+#: App/rawina/templates/rawina/interactive_narrator.html:84
+msgid "But don’t worry — just 5 choices are enough to reach an ending!"
+msgstr "Mais un peu de patience : 5 choix suffisent pour découvrir une fin !"
+
+#: App/rawina/templates/rawina/interactive_narrator.html:89
+msgid "Continue story"
+msgstr "Continuer l'histoire"
+
+#: App/rawina/templates/rawina/interactive_narrator.html:93
+msgid "Quit anyway"
+msgstr "Quitter"
 
 #: App/rawina/templates/rawina/loading_story.html:5
 msgid "Generating Story..."
@@ -392,11 +421,8 @@ msgstr "Annuler"
 
 #: App/rawina/templates/rawina/story_detail.html:27
 #, python-format
-msgid ""
-"\n"
-"          Theme: %(theme)s • Created on %(created)s\n"
-"          "
-msgstr "Thème : %(theme)s • Créée le %(created)s"
+msgid "Theme: %(theme)s • Created on %(created)s\n"
+msgstr "Thème : %(theme)s • Créée le %(created)s\n"
 
 #: App/rawina/templates/rawina/story_list.html:5
 msgid "Your Stories - RAWINA"
@@ -503,27 +529,30 @@ msgstr "Connexion"
 msgid "Sign Up"
 msgstr "Créer un compte"
 
-#: App/theme/templates/theme/base.html:51
-#: App/theme/templates/theme/base_dashboard.html:50
-#: App/theme/templates/theme/base_login.html:39
+#: App/theme/templates/theme/base.html:54
+#: App/theme/templates/theme/base.html:80
+#: App/theme/templates/theme/base_dashboard.html:53
+#: App/theme/templates/theme/base_dashboard.html:79
+#: App/theme/templates/theme/base_login.html:42
+#: App/theme/templates/theme/base_login.html:68
 msgid "Toggle sound"
 msgstr "Activer/Désactiver le son"
 
-#: App/theme/templates/theme/base.html:63
-#: App/theme/templates/theme/base_dashboard.html:62
-#: App/theme/templates/theme/base_login.html:51
+#: App/theme/templates/theme/base.html:66
+#: App/theme/templates/theme/base_dashboard.html:65
+#: App/theme/templates/theme/base_login.html:54
 msgid "Crafted with imagination."
 msgstr "Conçu avec imagination."
 
-#: App/theme/templates/theme/base.html:64
-#: App/theme/templates/theme/base_dashboard.html:63
-#: App/theme/templates/theme/base_login.html:52
+#: App/theme/templates/theme/base.html:67
+#: App/theme/templates/theme/base_dashboard.html:66
+#: App/theme/templates/theme/base_login.html:55
 msgid "All rights reserved."
 msgstr "Tous droits réservés."
 
-#: App/theme/templates/theme/base.html:88
-#: App/theme/templates/theme/base_dashboard.html:101
-#: App/theme/templates/theme/base_login.html:76
+#: App/theme/templates/theme/base.html:93
+#: App/theme/templates/theme/base_dashboard.html:93
+#: App/theme/templates/theme/base_login.html:81
 msgid "The browser blocked autoplay. Please check your settings."
 msgstr "Le navigateur a bloqué la lecture automatique. Vérifie tes paramètres."
 

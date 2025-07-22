@@ -38,7 +38,7 @@
             <form action="{% url 'set_language' %}" method="post" class="ml-4">
                 {% csrf_token %}
                 <select name="language" onchange="this.form.submit()"
-                        class="bg-sage-green text-sand-beige px-4 py-2 rounded-full shadow border-2 border-sand-beige hover:bg-sage-green/90 focus:outline-none">
+                        class="bg-sage-green text-sand-beige text-sm px-3 py-1.5 rounded-full shadow border border-sand-beige hover:bg-sage-green/90 focus:outline-none focus:ring-sage-green/60">
                     <option value="en" {% if LANGUAGE_CODE == "en" %}selected{% endif %}>English</option>
                     <option value="fr" {% if LANGUAGE_CODE == "fr" %}selected{% endif %}>Français</option>
                 </select>
