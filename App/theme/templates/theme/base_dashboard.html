@@ -33,22 +33,25 @@
                     </button>
                 </form>
 
-                <!-- Language Selector -->
-                <form action="{% url 'set_language' %}" method="post" class="ml-4">
-                    {% csrf_token %}
-                    <select name="language" onchange="this.form.submit()"
-                            class="bg-sage-green text-sand-beige px-4 py-2 rounded-full shadow border-2 border-sand-beige hover:bg-sage-green/90 focus:outline-none">
-                        <option value="en" {% if LANGUAGE_CODE == "en" %}selected{% endif %}>English</option>
-                        <option value="fr" {% if LANGUAGE_CODE == "fr" %}selected{% endif %}>Français</option>
-                    </select>
-                </form>
+            <!-- Language Selector -->
+            <form action="{% url 'set_language' %}" method="post" class="ml-4">
+                {% csrf_token %}
+                <select name="language" onchange="this.form.submit()"
+                        class="bg-sage-green text-sand-beige text-sm px-3 py-1.5 rounded-full shadow border border-sand-beige hover:bg-sage-green/90 focus:outline-none focus:ring-sage-green/60">
+                    <option value="en" {% if LANGUAGE_CODE == "en" %}selected{% endif %}>English</option>
+                    <option value="fr" {% if LANGUAGE_CODE == "fr" %}selected{% endif %}>Français</option>
+                </select>
+            </form>
             </div>
         </div>
     </nav>
 
     <!-- Audio Control Button -->
-    <button id="toggle-audio-button" class="fixed bottom-4 right-4 z-50 p-3 bg-sage-green text-sand-beige rounded-full shadow-lg hover:bg-light-sienna transition-colors duration-200" aria-label="{% trans 'Toggle sound' %}">
-        <!-- Initialisé par JS -->
+    <button id="toggle-audio-button"
+            data-static-url="{% static 'images/' %}"
+            class="fixed bottom-4 right-4 z-50 p-3 bg-sage-green text-sand-beige rounded-full shadow-lg hover:bg-light-sienna transition-colors duration-200"
+            aria-label="{% trans 'Toggle sound' %}">
+        <!-- Icon loaded by JS -->
     </button>
 
     <!-- Contenu principal -->
@@ -67,25 +70,14 @@
     <script>
         const backgroundAudio = document.getElementById('background-audio');
         const toggleAudioButton = document.getElementById('toggle-audio-button');
+        const staticUrl = toggleAudioButton.dataset.staticUrl;
         let isMuted = true;
 
         function updateToggleButtonIcon() {
-            if (isMuted) {
-                toggleAudioButton.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                    </svg>
-                `;
-            } else {
-                toggleAudioButton.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464A5 5 0 0117 12h-2A3 3 0 009 9.536L15.536 8.464z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 12a5 5 0 01-1.464 3.536L15.536 8.464A5 5 0 0117 12z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.28 7.636l2.12-2.12a1 1 0 011.415 0l3.536 3.536a1 1 0 010 1.414l-2.12 2.12a1 1 0 01-1.414 0l-3.536-3.536a1 1 0 010-1.414z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9h-.01M18 15h.01M6 15h.01M18 9h.01" />
-                    </svg>
-                `;
-            }
+            const iconPath = isMuted ? 'mute.png' : 'sound.png';
+            toggleAudioButton.innerHTML = `
+                <img src="${staticUrl}${iconPath}" alt="{% trans 'Toggle sound' %}" class="w-8 h-8 object-contain">
+            `;
         }
 
         updateToggleButtonIcon();
@@ -113,5 +105,6 @@
             });
         });
     </script>
+
 </body>
 </html>
