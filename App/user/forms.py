@@ -55,3 +55,10 @@ class RegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+class PasswordResetForm(forms.Form):
+    email = forms.EmailField(
+        label="Email",
+        widget=forms.EmailInput(attrs={
+            "class": "w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-skyblue focus:outline-none"
+        })
+    )

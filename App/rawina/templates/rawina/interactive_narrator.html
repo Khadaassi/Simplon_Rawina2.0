@@ -9,7 +9,6 @@
   class="min-h-screen bg-sand-beige flex items-center justify-center px-6 py-16 shadow-lg border-y-4 border-sage-green bg-cover bg-center"
   style="background-image: url('{% static 'images/forest_bg.png' %}')">
   
-  
   <div class="border-4 border-sand-beige rounded-lg shadow-2xl p-8 bg-sage-green backdrop-blur-sm w-full max-w-3xl z-10">
     
     <h2 class="text-3xl font-bold text-sand-beige text-center mb-6">{% trans "Your Interactive Adventure" %}</h2>
@@ -58,12 +57,68 @@
     {% endif %}
 
     <div class="text-center text-sm mt-8 text-gray-300">
-
-      <a href="{% url 'rawina:dashboard' %}" class="text-softbrown hover:underline">
-        ← {% trans "Back to Dashboard" %}
-      </a>
+      {% if finished %}
+        <a href="{% url 'rawina:dashboard' %}" class="text-softbrown hover:underline">
+          ← {% trans "Back to Dashboard" %}
+        </a>
+      {% else %}
+        <a href="#" onclick="openExitModal(); return false;" class="text-softbrown hover:underline">
+          ← {% trans "Back to Dashboard" %}
+        </a>
+      {% endif %}
     </div>
 
   </div>
 </div>
+
+{% if not finished %}
+<!-- Exit Confirmation Modal -->
+<div id="exitModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center">
+  <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-6 relative text-center">
+    <button id="closeModal"
+            class="absolute top-3 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold focus:outline-none">
+      &times;
+    </button>
+    <h3 class="text-xl font-bold text-deepviolet mb-2">
+      {% trans "Leave the story?" %}
+    </h3>
+    <p class="text-gray-700 mb-6 text-sm">
+      {% trans "If you leave now, your interactive story will be lost." %}<br>
+      {% trans "But don’t worry — just 5 choices are enough to reach an ending!" %}
+    </p>
+    <div class="flex justify-center gap-4">
+      <button id="cancelExit"
+              class="px-4 py-2 rounded-full border border-sage-green text-sage-green hover:bg-gray-100">
+        {% trans "Continue story" %}
+      </button>
+      <a href="{% url 'rawina:dashboard' %}"
+         class="px-4 py-2 rounded-full bg-sage-green text-white hover:bg-light-sienna transition">
+        {% trans "Quit anyway" %}
+      </a>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- JavaScript -->
+{% if not finished %}
+<script>
+  function openExitModal() {
+    document.getElementById("exitModal").classList.remove("hidden");
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const closeModal = document.getElementById("closeModal");
+    const cancelExit = document.getElementById("cancelExit");
+    const exitModal = document.getElementById("exitModal");
+
+    closeModal?.addEventListener("click", () => {
+      exitModal.classList.add("hidden");
+    });
+    cancelExit?.addEventListener("click", () => {
+      exitModal.classList.add("hidden");
+    });
+  });
+</script>
+{% endif %}
 {% endblock %}

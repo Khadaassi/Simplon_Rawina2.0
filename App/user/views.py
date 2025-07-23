@@ -6,6 +6,7 @@ from django.contrib.auth import login, update_session_auth_hash
 from django.contrib import messages
 from django.utils.translation import gettext as _
 from .forms import RegistrationForm
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 class HomeView(TemplateView):
@@ -60,35 +61,24 @@ class EditProfileView(TemplateView):
         return redirect("user:account_settings")
 
 
-class ChangePasswordView(TemplateView):
+class ChangePasswordView(FormView):
     template_name = "user/change_password.html"
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy("user:account_settings")
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["user"] = self.request.user
-        return context
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
-    def post(self, request, *args, **kwargs):
-        user = request.user
-        current_password = request.POST.get("current_password")
-        new_password = request.POST.get("new_password")
-        confirm_password = request.POST.get("confirm_password")
+    def form_valid(self, form):
+        user = form.save()
+        update_session_auth_hash(self.request, user)
+        messages.success(self.request, _("Your password has been changed successfully."))
+        return super().form_valid(form)
 
-        if not user.check_password(current_password):
-            messages.error(request, _("Current password is incorrect."))
-            return redirect("user:change_password")
-
-        if new_password != confirm_password:
-            messages.error(request, _("New passwords do not match."))
-            return redirect("user:change_password")
-
-        if len(new_password) < 8:
-            messages.error(request, _("New password must be at least 8 characters."))
-            return redirect("user:change_password")
-
-        user.set_password(new_password)
-        user.save()
-        update_session_auth_hash(request, user)
-
-        messages.success(request, _("Your password has been changed successfully."))
-        return redirect("user:account_settings")
+    def form_invalid(self, form):
+        for field_errors in form.errors.values():
+            for error in field_errors:
+                messages.error(self.request, error)
+        return super().form_invalid(form)

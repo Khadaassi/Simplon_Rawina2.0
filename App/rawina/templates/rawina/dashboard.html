@@ -42,7 +42,7 @@
       <img src="{% static 'images/rawi3.png' %}" alt="RAWI" class="w-8 h-8" />
       <h2 class="text-2xl font-bold text-sand-beige text-center">
         {% blocktrans with theme=story.get_theme_display username=user.username %}
-          Welcome to Your Dashboard, {{ username }}!
+          Welcome, {{ username }}!
         {% endblocktrans %}
       </h2>
     </div>
@@ -51,6 +51,13 @@
     </p>
 
     <div class="mt-6 text-center">
+        <a href="{% url 'rawina:choose_theme' %}" 
+        class="inline-block bg-light-sienna text-sand-beige font-semibold py-2 px-4 rounded-xl shadow hover:bg-sage-green transition duration-200"
+        >
+          {% trans "Create a new Story" %}
+        </a>
+    </div>
+    <div class="mt-6 text-center">
       <a
         href="{% url 'rawina:interactive_choose_theme' %}"
         class="inline-block bg-light-sienna text-sand-beige font-semibold py-2 px-4 rounded-xl shadow hover:bg-sage-green transition duration-200"
@@ -58,7 +65,6 @@
         {% trans "Start an Interactive Story Adventure" %}
       </a>
     </div>
-
     <div class="space-y-4">
       <h3 class="text-xl font-semibold text-sand-beige text-center">
         {% trans "Your Stories" %}
