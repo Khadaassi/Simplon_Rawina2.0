@@ -1,5 +1,6 @@
 {% extends "theme/base_dashboard.html" %}
 {% load static %}
+{% load l10n %}
 {% load i18n %}
 
 {% block title %}{% trans "Your Stories - RAWINA" %}{% endblock %}
@@ -23,9 +24,7 @@
                             <h3 class="text-xl font-bold text-deepviolet">{{ story.title_en|linebreaks }}</h3>
                         {% endif %}
                         <p class="text-sm text-gray-700 mt-1">
-                            {% blocktrans with created=story.created_at|date:"F j, Y" %}
-                            Created on {{ created }}
-                            {% endblocktrans %}
+                          {% blocktrans %}Created on{% endblocktrans %} {{ story.created_at|localize }}
                         </p>
                         <p class="text-sm italic text-light-sienna mt-2">
                             {% blocktrans with theme=story.get_theme_display %}
