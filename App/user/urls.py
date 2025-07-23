@@ -22,4 +22,9 @@ urlpatterns = [
     path("edit_profile/", EditProfileView.as_view(), name="edit_profile"),
     path("change_password/", ChangePasswordView.as_view(), name="change_password"),
     path("logout/", LogoutView.as_view(next_page=reverse_lazy("user:home")), name="logout"),
-]
+    path("password_reset/", auth_views.PasswordResetView.as_view(
+        template_name="user/password_reset.html",
+        email_template_name="user/password_reset_email.html",
+        subject_template_name="user/password_reset_subject.txt"
+    ), name="password_reset"),
+    ]

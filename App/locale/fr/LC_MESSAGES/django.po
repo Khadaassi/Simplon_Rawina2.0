@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RAWINA 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-23 00:58+0200\n"
+"POT-Creation-Date: 2025-07-23 11:43+0200\n"
 "PO-Revision-Date: 2025-07-15 15:00+0200\n"
 "Last-Translator: Khadija <khadija@example.com>\n"
 "Language-Team: French\n"
@@ -220,16 +220,16 @@ msgid "Account Settings"
 msgstr "Paramètres du Compte"
 
 #: App/rawina/templates/rawina/dashboard.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "          Welcome, %(username)s!\n"
-#| "        "
+#, python-format
 msgid ""
 "\n"
 "          Welcome, %(username)s!\n"
 "        "
-msgstr "Bienvenue sur ton tableau de bord, %(username)!"
+msgstr ""
+"\n"
+"          Bienvenue, %(username)s !\n"
+"        "
+
 
 #: App/rawina/templates/rawina/dashboard.html:50
 msgid "Here you can manage your stories and account settings."
@@ -422,13 +422,16 @@ msgid "Cancel"
 msgstr "Annuler"
 
 #: App/rawina/templates/rawina/story_detail.html:27
-#, fuzzy, python-format
-#| msgid "Theme: %(theme)s • Created on %(created)s\n"
+#, python-format
 msgid ""
 "\n"
 "          Theme: %(theme)s • Created on %(created)s\n"
 "          "
-msgstr "Thème : %(theme)s • Créée le %(created)s\n"
+msgstr ""
+"\n"
+"          Thème : %(theme)s • Créée le %(created)s\n"
+"          "
+
 
 #: App/rawina/templates/rawina/story_list.html:5
 msgid "Your Stories - RAWINA"
@@ -441,6 +444,9 @@ msgid ""
 "                            Created on %(created)s\n"
 "                            "
 msgstr ""
+"\n"
+"                            Créée le %(created)s\n"
+"                            "
 
 #: App/rawina/templates/rawina/story_list.html:31
 #, python-format
@@ -449,6 +455,10 @@ msgid ""
 "                            Theme: %(theme)s\n"
 "                            "
 msgstr ""
+"\n"
+"                            Thème : %(theme)s\n"
+"                            "
+
 
 #: App/rawina/templates/rawina/story_list.html:38
 msgid "Read more →"
@@ -477,7 +487,7 @@ msgstr "Es-tu sûr(e) de vouloir supprimer cette histoire?"
 
 #: App/rawina/templates/rawina/story_pdf.html:69
 msgid "Theme:"
-msgstr "Thème :"
+msgstr "Thème:"
 
 #: App/rawina/templates/rawina/story_pdf.html:70
 msgid "Date:"
@@ -585,6 +595,7 @@ msgid "Enter your username"
 msgstr "Entre ton nom d’utilisateur"
 
 #: App/user/forms.py:18 App/user/templates/user/edit_profile.html:32
+#: App/user/templates/user/password_reset.html:15
 msgid "Email"
 msgstr "Adresse e-mail"
 
@@ -626,7 +637,8 @@ msgid "Edit Profile"
 msgstr "Modifier le Profil"
 
 #: App/user/templates/user/account.html:26
-#: App/user/templates/user/change_password.html:12
+#: App/user/templates/user/change_password.html:27
+#: App/user/templates/user/password_reset_confirm.html:36
 msgid "Change Password"
 msgstr "Changer le Mot de Passe"
 
@@ -654,38 +666,37 @@ msgstr "Adresse e-mail :"
 msgid "Change Password - RAWINA"
 msgstr "Changer le Mot de Passe - RAWINA"
 
-#: App/user/templates/user/change_password.html:18
+#: App/user/templates/user/change_password.html:33
 msgid "Current Password"
 msgstr "Mot de passe actuel"
 
-#: App/user/templates/user/change_password.html:21
+#: App/user/templates/user/change_password.html:36
 msgid "Enter current password"
 msgstr "Entre ton mot de passe actuel"
 
-#: App/user/templates/user/change_password.html:25
+#: App/user/templates/user/change_password.html:40
+#: App/user/templates/user/password_reset_confirm.html:21
 msgid "New Password"
 msgstr "Nouveau mot de passe"
 
-#: App/user/templates/user/change_password.html:28
+#: App/user/templates/user/change_password.html:43
+#: App/user/templates/user/password_reset_confirm.html:24
 msgid "Enter new password"
 msgstr "Entre ton nouveau mot de passe"
 
-#: App/user/templates/user/change_password.html:32
+#: App/user/templates/user/change_password.html:47
+#: App/user/templates/user/password_reset_confirm.html:28
 msgid "Confirm New Password"
 msgstr "Confirme le nouveau mot de passe"
 
-#: App/user/templates/user/change_password.html:35
+#: App/user/templates/user/change_password.html:50
+#: App/user/templates/user/password_reset_confirm.html:31
 msgid "Confirm new password"
 msgstr "Confirme ton nouveau mot de passe"
 
-#: App/user/templates/user/change_password.html:40
+#: App/user/templates/user/change_password.html:55
 msgid "Update Password"
 msgstr "Mettre à jour le mot de passe"
-
-#: App/user/templates/user/change_password.html:46
-#: App/user/templates/user/edit_profile.html:55
-msgid "Back to Account Settings"
-msgstr "Retour aux Paramètres du Compte"
 
 #: App/user/templates/user/edit_profile.html:5
 msgid "Edit Profile - RAWINA"
@@ -694,6 +705,10 @@ msgstr "Modifier le Profil - RAWINA"
 #: App/user/templates/user/edit_profile.html:46
 msgid "Save Changes"
 msgstr "Enregistrer les Modifications"
+
+#: App/user/templates/user/edit_profile.html:55
+msgid "Back to Account Settings"
+msgstr "Retour aux Paramètres du Compte"
 
 #: App/user/templates/user/home.html:5
 msgid "Welcome"
@@ -761,6 +776,94 @@ msgstr "Connecte-toi à ton compte"
 msgid "Don't have an account yet?"
 msgstr "Tu n’as pas encore de compte ?"
 
+#: App/user/templates/user/login.html:48
+#: App/user/templates/user/password_reset.html:10
+msgid "Forgot your password?"
+msgstr "Mot de passe oublié?"
+
+#: App/user/templates/user/password_reset.html:5
+msgid "Reset Password - RAWINA"
+msgstr "Changer le Mot de Passe - RAWINA"
+
+#: App/user/templates/user/password_reset.html:11
+msgid ""
+"Enter your email address and we'll send you instructions to reset your "
+"password."
+msgstr ""
+"Entre ton adresse e-mail et nous t'enverrons les instructions pour "
+"réinitialiser ton mot de passe."
+
+#: App/user/templates/user/password_reset.html:18
+msgid "Reset my password"
+msgstr "Change ton mot de passe"
+
+#: App/user/templates/user/password_reset.html:21
+#: App/user/templates/user/password_reset_complete.html:9
+#: App/user/templates/user/password_reset_confirm.html:42
+msgid "Back to Login"
+msgstr "Retour à la connexion"
+
+#: App/user/templates/user/password_reset_complete.html:3
+msgid "Password Reset Complete - RAWINA"
+msgstr "Mot de passe changé - RAWINA"
+
+#: App/user/templates/user/password_reset_complete.html:7
+msgid "Your password has been set!"
+msgstr "Ton mot de passe a bien été modifié."
+
+#: App/user/templates/user/password_reset_complete.html:8
+msgid "You may now log in with your new password."
+msgstr "Tu peux maintenant utilisé ton nouveau mot de passe."
+
+#: App/user/templates/user/password_reset_confirm.html:5
+msgid "Set New Password - RAWINA"
+msgstr "Changer le Mot de Passe - RAWINA"
+
+#: App/user/templates/user/password_reset_confirm.html:14
+msgid "Set Your New Password"
+msgstr "Confirme le nouveau mot de passe"
+
+#: App/user/templates/user/password_reset_done.html:3
+msgid "Password Reset Sent - RAWINA"
+msgstr "Changer le Mot de Passe - RAWINA"
+
+#: App/user/templates/user/password_reset_done.html:7
+msgid "Check your email"
+msgstr "Vérifie ta boîte e-mail"
+
+#: App/user/templates/user/password_reset_done.html:8
+msgid ""
+"We’ve emailed you instructions for setting your password. You should receive "
+"the email shortly!"
+msgstr ""
+"Les instructions pour changer de mot de passe on été envoyé par email. Vous "
+"le recevrez rapidement!"
+
+#: App/user/templates/user/password_reset_email.html:3
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"RAWINA account."
+msgstr ""
+"Vous recevez ce message car vous avez demandé une réinitialisation du mot de "
+"passe de votre compte RAWINA."
+
+#: App/user/templates/user/password_reset_email.html:5
+msgid "Please click the link below to reset your password:"
+msgstr "Merci de suivre ce lien pour changer de mot de passe:"
+
+#: App/user/templates/user/password_reset_email.html:9
+msgid "If you didn't request a password reset, please ignore this email."
+msgstr ""
+"Si vous n'êtes pas à l'origine de la demande, veuillez ignorer cet email."
+
+#: App/user/templates/user/password_reset_email.html:11
+msgid "Thanks for using our site!"
+msgstr "Merci d'utiliser notre site"
+
+#: App/user/templates/user/password_reset_subject.txt:2
+msgid "Reset your RAWINA password"
+msgstr "Change ton mot de passe RAWINA"
+
 #: App/user/templates/user/register.html:22
 msgid "Create Your RAWINA Account"
 msgstr "Crée ton compte RAWINA"
@@ -773,21 +876,30 @@ msgstr "Tu as déjà un compte ?"
 msgid "Log In"
 msgstr "Se connecter"
 
-#: App/user/views.py:78
-msgid "Current password is incorrect."
-msgstr "Le mot de passe actuel est incorrect."
-
-#: App/user/views.py:82
-msgid "New passwords do not match."
-msgstr "Les nouveaux mots de passe ne correspondent pas."
-
-#: App/user/views.py:86
-msgid "New password must be at least 8 characters."
-msgstr "Le nouveau mot de passe doit contenir au moins 8 caractères."
-
-#: App/user/views.py:93
+#: App/user/views.py:77
 msgid "Your password has been changed successfully."
 msgstr "Ton mot de passe a bien été modifié."
+
+#~ msgid "Password Changed"
+#~ msgstr "Mot de passe modifié"
+
+#~ msgid "Go to Login"
+#~ msgstr "Connexion"
+
+#~ msgid "Set New Password"
+#~ msgstr "Nouveau mot de passe"
+
+#~ msgid "Email Sent"
+#~ msgstr "E-mail envoyé"
+
+#~ msgid "Current password is incorrect."
+#~ msgstr "Le mot de passe actuel est incorrect."
+
+#~ msgid "New passwords do not match."
+#~ msgstr "Les nouveaux mots de passe ne correspondent pas."
+
+#~ msgid "New password must be at least 8 characters."
+#~ msgstr "Le nouveau mot de passe doit contenir au moins 8 caractères."
 
 #~ msgid "Welcome to Rawina"
 #~ msgstr "Bienvenue sur Rawina"

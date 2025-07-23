@@ -38,11 +38,16 @@
             {% trans "Login" %}
         </button>
     </form>
-
+    
     <div class="text-center text-sm text-gray-600 mt-4">
         {% trans "Don't have an account yet?" %}
         <a href="{% url 'user:register' %}" class="text-sand-beige hover:underline">{% trans "Sign Up" %}</a>
     </div>
-  </div>
+    <p class="mt-4 text-sm text-sand-beige">
+    <a href="{% url 'user:password_reset' %}" class="underline hover:text-deepviolet">
+        {% trans "Forgot your password?" %}
+    </a>
+    </p>
+</div>
 </div>
 {% endblock %}
